@@ -1,3 +1,4 @@
+import { sendEmail } from '@/controllers/email.controller';
 import express from 'express';
 
 const emailRouter = express.Router();
@@ -9,6 +10,8 @@ emailRouter.get('/', (req, res) => {
     msg: 'Email api running.',
   });
 });
+
+emailRouter.post('/send', sendEmail);
 // Route definitions end
 
 export default emailRouter;
