@@ -1,0 +1,44 @@
+{
+	"info": {
+		"_postman_id": "0881d83a-63b0-4a3e-8ff8-6d08384f7bfe",
+		"name": "S3:S1: DS Assignment 1 (Email & SMS Service)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15272912"
+	},
+	"item": [
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Send Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"from\": \"admin@sliit.lk\",\n  \"recipient\": \"yugantha1468@gmail.com\",\n  \"subject\": \"Confirmation Code\",\n  \"emailBody\": \"<h2>Hello User,</h2><br>This is the email body content.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/email/send",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"email",
+								"send"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
