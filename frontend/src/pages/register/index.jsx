@@ -1,6 +1,19 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const RegisterPage = () => {
+  const [selectedRole, setSelectedRole] = useState('admin');
+
+  const selectRole = (role, event) => {
+    event.preventDefault();
+    // If the clicked role is already selected, deselect it
+    if (selectedRole === role) {
+      setSelectedRole(null);
+    } else {
+      setSelectedRole(role);
+    }
+  };
+
   return (
     <div className="h-screen md:flex">
       <div className="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-blue-800 to-purple-700 i justify-around items-center hidden">
@@ -33,6 +46,40 @@ const RegisterPage = () => {
           <p className="text-lg font-normal text-gray-600 mb-7">
             Welcome to Learnify FAM ❤️
           </p>
+
+          <div className="flex justify-end items-center mb-4">
+            <button
+              className={`py-2 px-4 rounded-full mr-4 ${
+                selectedRole === 'admin'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              } focus:outline-none`}
+              onClick={(e) => selectRole('admin', e)}
+            >
+              Admin
+            </button>
+            <button
+              className={`py-2 px-4 rounded-full mr-4 ${
+                selectedRole === 'instructor'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              } focus:outline-none`}
+              onClick={(e) => selectRole('instructor', e)}
+            >
+              Instructor
+            </button>
+            <button
+              className={`py-2 px-4 rounded-full ${
+                selectedRole === 'student'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 text-gray-700'
+              } focus:outline-none`}
+              onClick={(e) => selectRole('student', e)}
+            >
+              Student
+            </button>
+          </div>
+
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <svg
               xmlns="http://www.w3.org/2000/svg"
