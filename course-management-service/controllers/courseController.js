@@ -51,12 +51,43 @@ async function getAllCourses(req, res){
 }
 
 async function updateCourse(req, res) {
-
+    
 }
 
 
 async function deleteCourse(req, res){
+    const { crscode } = req.params;
+    const courseDetails = await Course.findOne({crscode});
+    let instructorId;
+    let currentUserId = 'in2d3s5ef534'
+    // let currentUserId = 'in2d3s5ef53'
+    if(courseDetails){
+        instructorId = courseDetails.instructorId;
+        console.log(instructorId);
+    }
+    else{
+        return res.status(404).json({ error: "Course with provided code not found" });
+    }
+    if(instructorId === currentUserId){
+        try {
+            // Find the course by crscode and delete it
+            const deletedItem = await Course.findOneAndDelete({ crscode });
+    
+            if (deletedItem) {
+                return res.status(200).json({ status: "Item deleted", deletedItem });
+            } else {
+                return res.status(404).json({ error: "Course with the entered code not found" });
+            }
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+    }
 
+    
 }
 
 
