@@ -40,14 +40,28 @@ function generateUniqueCourseCode() {
     return uuidv4();
 }
 
+// An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved.
 async function getAllCourses(req, res){
-    try {
-        const courseItems = await Course.find();
-        res.json(courseItems);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
+    const role = 'learner' // this is a sample value (remove later)
+    if(role === 'admin'){
+        try {
+            const courseItems = await Course.find();
+            res.json(courseItems);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
+        }
     }
+    else{
+        try {
+            const approvedCourses = await Course.find({ status: 'approved' });
+            res.json(approvedCourses);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ error: `Cannot fetch approved courses at the moment. Err: ${err}` });
+        }
+    }
+
 }
 
 async function getCourseById(req, res){
