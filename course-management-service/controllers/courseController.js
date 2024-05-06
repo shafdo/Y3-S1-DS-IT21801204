@@ -7,8 +7,6 @@ async function addCourse(req, res) {
     const instructorId = 'in2d3s5ef534';
     const crsname = req.body.crsname;
     const description = req.body.description;
-    const status = 'pending';
-    const remarks = null;
     const price = Number(req.body.price);
     try {
         // Check if a course with the same crscode alrady exists
@@ -42,4 +40,24 @@ function generateUniqueCourseCode() {
     return uuidv4();
 }
 
-module.exports = { addCourse };
+async function getAllCourses(req, res){
+    try {
+        const courseItems = await Course.find();
+        res.json(courseItems);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
+    }
+}
+
+async function updateCourse(req, res) {
+
+}
+
+
+async function deleteCourse(req, res){
+
+}
+
+
+module.exports = { addCourse, updateCourse, getAllCourses, deleteCourse };
