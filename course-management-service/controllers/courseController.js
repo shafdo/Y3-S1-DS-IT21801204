@@ -50,6 +50,20 @@ async function getAllCourses(req, res){
     }
 }
 
+async function getCourseById(req, res){
+    const crscode = req.params.crscode; // Assuming the course code is passed as a URL parameter
+    try {
+        const courseItem = await Course.findOne({ crscode });
+        if (!courseItem) {
+            return res.status(404).json({ error: "Course not found" });
+        }
+        res.json(courseItem);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
+    }
+}
+
 async function updateCourse(req, res) {
     const { crscode } = req.params;
     const { crsname, description, price } = req.body;
@@ -127,4 +141,4 @@ async function deleteCourse(req, res){
 }
 
 
-module.exports = { addCourse, updateCourse, getAllCourses, deleteCourse };
+module.exports = { addCourse, updateCourse, getAllCourses, getCourseById, deleteCourse };
