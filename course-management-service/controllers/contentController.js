@@ -54,7 +54,17 @@ function generateUniqueCourseCode() {
 }
 
 async function getNotes(req, res){
-
+    const {crscode} = req.params;
+    try {
+        const notes = await Note.find({crscode: crscode});
+        if(!notes || notes.length === 0){
+            return res.status(404).json({ error: "No notes available for the current course" });
+        }
+        res.status(200).json(notes);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ error: `Error fetching notes: ${err.message}` });
+    }
 }
 
 async function getNoteById(req, res){
