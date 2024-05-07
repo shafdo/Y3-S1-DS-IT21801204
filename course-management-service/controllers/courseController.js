@@ -2,6 +2,8 @@
 const Course = require('../models/Course');
 const { v4: uuidv4 } = require('uuid');
 
+/* --------- Create functions --------- */
+
 async function addCourse(req, res) {
     const role = 'instructor';
     if(role === 'instructor'){
@@ -46,28 +48,48 @@ function generateUniqueCourseCode() {
     return uuidv4();
 }
 
-// An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses.
+/* --------- Read functions ---------*/
+
+// An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses excluding the content.
 async function getAllCourses(req, res){
-    const role = 'learner' // this is a sample value (remove later)
-    if(role === 'admin'){
+    const role = 'learner'; // Sample role (remove later)
+    let query;
+
+    if (role === 'admin') {
+        query = Course.find().select('crscode crsname instructorId description status remarks price date');
+    } else {
+        query = Course.find({ status: 'approved' }).select('crscode crsname instructorId description status remarks price date');
+    }
+
+    try {
+        const courseItems = await query.exec();
+        res.json(courseItems);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: `Cannot fetch course details at the moment. Err: ${err}` });
+    }
+
+}
+
+// This function returns the courses that you are enrolled to (if student), or the courses you created if you are an instructor
+async function getMyCourses(req, res){
+    const role = 'instructor';
+    if(role === 'instructor'){
+        const currentId = 'in2d3s5ef534'; // Example instructorId
         try {
-            const courseItems = await Course.find();
-            res.json(courseItems);
+            const courses = await Course.find({ instructorId: currentId });
+            if (!courses || courses.length === 0) {
+                return res.status(404).json({ error: "No courses found for the current instructor" });
+            }
+            res.json(courses);
         } catch (err) {
-            console.log(err);
-            res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
+            console.error(err);
+            res.status(500).json({ error: `Error fetching courses: ${err.message}` });
         }
     }
     else{
-        try {
-            const approvedCourses = await Course.find({ status: 'approved' });
-            res.json(approvedCourses);
-        } catch (err) {
-            console.log(err);
-            res.status(500).json({ error: `Cannot fetch approved courses at the moment. Err: ${err}` });
-        }
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
     }
-
 }
 
 // Using the below function users will be able to get data regarding a single course.
@@ -84,6 +106,27 @@ async function getCourseById(req, res){
         res.status(500).json({ status: `Cannot fetch course details at the moment. Err: ${err}` });
     }
 }
+
+async function getCoursesByArray(req, res){
+    const coursesArray = req.body.crsarry;
+    try {
+        // Fetch courses based on the array of crsCodes
+        const courses = await Course.find({ crscode: { $in: coursesArray }, status: 'approved' })
+                                    .select('crscode crsname instructorId description price date')
+                                    .exec();
+        if(courses.length > 0){
+            res.status(200).json(courses);
+        }
+        else{
+            return res.status(400).json({ error: `No courses with the passed cscodes` })
+        }   
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: `Cannot fetch course details at the moment. Err: ${err}` });
+    }
+}
+
+/* --------- Update functions --------- */
 
 async function updateCourse(req, res) {
     const role = 'instructor';
@@ -132,6 +175,7 @@ async function updateCourse(req, res) {
     
 }
 
+/* --------- Delete functions --------- */
 
 async function deleteCourse(req, res){
     const role = 'instructor';
@@ -170,10 +214,7 @@ async function deleteCourse(req, res){
     else{
         return res.status(401).json({ error: "You are not authorized to perform this action" });
     }
-    
-
-    
 }
 
 
-module.exports = { addCourse, updateCourse, getAllCourses, getCourseById, deleteCourse };
+module.exports = { addCourse, updateCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
