@@ -35,6 +35,27 @@ const courseSchema = new Schema({
         type: Date,
         default: Date.now,
         required : true
+    },
+    videos: {
+        type: [{
+            id: {
+                type: String,
+                required: true
+            },
+            title: {
+                type: String,
+                required: true
+            },
+            src: {
+                type: String,
+                required: true
+            }
+        }],
+        default: []
+    },
+    notes: {
+        type: [String],
+        default: []
     }
 });
 
