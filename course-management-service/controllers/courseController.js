@@ -48,7 +48,7 @@ function generateUniqueCourseCode() {
 
 // An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses.
 async function getAllCourses(req, res){
-    const role = 'learner' // this is a sample value (remove later)
+    const role = 'admin' // this is a sample value (remove later)
     if(role === 'admin'){
         try {
             const courseItems = await Course.find();
@@ -68,6 +68,27 @@ async function getAllCourses(req, res){
         }
     }
 
+}
+
+// This function returns the courses that you are enrolled to (if student), or the courses you created
+async function getMyCourses(req, res){
+    const role = 'instructor';
+    if(role === 'instructor'){
+        const currentId = 'in2d3s5ef534'; // Example instructorId
+        try {
+            const courses = await Course.find({ instructorId: currentId });
+            if (!courses || courses.length === 0) {
+                return res.status(404).json({ error: "No courses found for the current instructor" });
+            }
+            res.json(courses);
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: `Error fetching courses: ${err.message}` });
+        }
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+    }
 }
 
 // Using the below function users will be able to get data regarding a single course.
@@ -176,4 +197,4 @@ async function deleteCourse(req, res){
 }
 
 
-module.exports = { addCourse, updateCourse, getAllCourses, getCourseById, deleteCourse };
+module.exports = { addCourse, updateCourse, getAllCourses, getMyCourses, getCourseById, deleteCourse };
