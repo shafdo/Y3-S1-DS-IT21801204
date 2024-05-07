@@ -107,6 +107,25 @@ async function getCourseById(req, res){
     }
 }
 
+async function getCoursesByArray(req, res){
+    const coursesArray = req.body.crsarry;
+    try {
+        // Fetch courses based on the array of crsCodes
+        const courses = await Course.find({ crscode: { $in: coursesArray }, status: 'approved' })
+                                    .select('crscode crsname instructorId description price date')
+                                    .exec();
+        if(courses.length > 0){
+            res.status(200).json(courses);
+        }
+        else{
+            return res.status(400).json({ error: `No courses with the passed cscodes` })
+        }   
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: `Cannot fetch course details at the moment. Err: ${err}` });
+    }
+}
+
 /* --------- Update functions --------- */
 
 async function updateCourse(req, res) {
@@ -195,10 +214,7 @@ async function deleteCourse(req, res){
     else{
         return res.status(401).json({ error: "You are not authorized to perform this action" });
     }
-    
-
-    
 }
 
 
-module.exports = { addCourse, updateCourse, getAllCourses, getMyCourses, getCourseById, deleteCourse };
+module.exports = { addCourse, updateCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
