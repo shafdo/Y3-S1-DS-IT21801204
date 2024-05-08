@@ -10,11 +10,13 @@ import {
   InstructorDashboardPage,
   MyCoursesPage,
 } from './';
+import HomePage from './home';
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
