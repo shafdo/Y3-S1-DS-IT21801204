@@ -1,5 +1,5 @@
 import { CardWithLink } from '../../../components';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faStar } from '@fortawesome/free-solid-svg-icons';
 
 const InstructorDashboardPage = () => {
   return (
@@ -13,6 +13,13 @@ const InstructorDashboardPage = () => {
             location="/instructor/course/create"
             icon={faEnvelope}
             buttonText="Create Course"
+          />
+          <CardWithLink
+            title="My Courses"
+            desc="It's time to create your new course."
+            location="/instructor/course/create"
+            icon={faStar}
+            buttonText="My Courses"
           />
         </div>
       </div>

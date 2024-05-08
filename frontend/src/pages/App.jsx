@@ -8,6 +8,7 @@ import {
   CourseCreatePage,
   CourseEditPage,
   InstructorDashboardPage,
+  MyCoursesPage,
 } from './';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           element={<CourseCreatePage />}
         />
         <Route path="/instructor/course/edit" element={<CourseEditPage />} />
+        <Route path="/instructor/course/my" element={<MyCoursesPage />} />
       </Routes>
     </Router>
   );
