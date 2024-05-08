@@ -33,6 +33,11 @@ const courseRouter = require("./routes/course.js")
 // using the imported route
 app.use("/course", courseRouter);
 
+// Importing and accessing the content.js route file
+const contentRouter = require("./routes/content.js")
+// using the imported route
+app.use("/content", contentRouter);
+
 //creating the connection
 const connection = mongoose.connection;
 connection.once("open", () => {

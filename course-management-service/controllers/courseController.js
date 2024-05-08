@@ -170,9 +170,82 @@ async function updateCourse(req, res) {
     else{
         return res.status(401).json({ error: "You are not authorized to perform this action" });
     }
-    
+}
 
+async function approveRejectRecheckCourse(req, res){
+    const role = 'admin';
+    const { crscode } = req.params;
+    const { status, remarks } = req.body;
+    let currentUserId = 'in2d3s5ef534'; // mocks the id value stored in session
+    if (role === 'admin') {
+        if((status === 'approved' || status === 'rejected') && remarks !== null){
+            const courseDetails = await Course.findOne({ crscode });
+            if (courseDetails) {
+                instructorId = courseDetails.instructorId;
+                try {
+                    // Find the course by crscode and update only status and remarks fields
+                    const updatedItem = await Course.findOneAndUpdate(
+                        { crscode },
+                        { $set: { status, remarks } }, // Update only status and remarks
+                        { new: true } // Return the updated document
+                    );
+
+                    if (updatedItem) {
+                        return res.status(200).json({ status: "Item updated", updatedItem });
+                    } else {
+                        return res.status(404).json({ error: "Course with provided code not found" });
+                    }
+                } catch (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: "Internal server error" });
+                }
+            } else {
+                return res.status(404).json({ error: "Course with provided code not found" });
+            }
+        }
+        else{
+            return res.status(401).json({ error: "Recheck the passed data" }); 
+        }
+    } else if(role === 'instructor'){
+        const courseDetails = await Course.findOne({ crscode });
+        if(status === 'pending'){
+            if (courseDetails) {
+                instructorId = courseDetails.instructorId;
+                if(currentUserId === instructorId){
+                    try {
+                        // Find the course by crscode and update only status field
+                        const updatedItem = await Course.findOneAndUpdate(
+                            { crscode },
+                            { $set: { status } }, // Update only status
+                            { new: true } // Return the updated document
+                        );
     
+                        if (updatedItem) {
+                            return res.status(200).json({ status: "Item updated", updatedItem });
+                        } else {
+                            return res.status(404).json({ error: "Course with provided code not found" });
+                        }
+                    } catch (err) {
+                        console.log(err);
+                        return res.status(500).json({ error: "Internal server error" });
+                    }
+                }
+                else{
+                    return res.status(401).json({ error: "You are not authorized to perform this action" });            
+                }
+                
+            } else {
+                return res.status(404).json({ error: "Course with provided code not found" });
+            }
+        }
+        else{
+            return res.status(401).json({ error: "Check the passed data" });
+        }
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+
+    }
 }
 
 /* --------- Delete functions --------- */
@@ -217,4 +290,4 @@ async function deleteCourse(req, res){
 }
 
 
-module.exports = { addCourse, updateCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
+module.exports = { addCourse, updateCourse, approveRejectRecheckCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
