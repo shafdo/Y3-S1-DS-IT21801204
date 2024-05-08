@@ -5,6 +5,9 @@ import {
   AdminPendingCoursePage,
   AdminApprovedCoursePage,
   AdminRejectedCoursePage,
+  CourseCreatePage,
+  CourseEditPage,
+  InstructorDashboardPage,
 } from './';
 
 function App() {
@@ -25,6 +28,15 @@ function App() {
           path="/admin/dashboard/rejected"
           element={<AdminRejectedCoursePage />}
         />
+        <Route
+          path="/instructor/dashboard"
+          element={<InstructorDashboardPage />}
+        />
+        <Route
+          path="/instructor/course/create"
+          element={<CourseCreatePage />}
+        />
+        <Route path="/instructor/course/edit" element={<CourseEditPage />} />
       </Routes>
     </Router>
   );
