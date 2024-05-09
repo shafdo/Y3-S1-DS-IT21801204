@@ -3,6 +3,24 @@ const Course = require('../models/Course');
 const Note = require('../models/Note');
 const { v4: uuidv4 } = require('uuid');
 
+/* ------ Video upload ------ */
+const firebase = require('firebase/app');
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBl4UkVcQ84mkmWF52Vpd0DT4kbrO_RmnQ",
+    authDomain: "dsassignment-66e14.firebaseapp.com",
+    projectId: "dsassignment-66e14",
+    storageBucket: "dsassignment-66e14.appspot.com",
+    messagingSenderId: "461683121719",
+    appId: "1:461683121719:web:6b8d41cd6411819e3e29b2",
+    measurementId: "G-1W09E138C3"
+  };
+firebase.initializeApp(firebaseConfig);
+const storage = getStorage();
+/* ------ Video upload ------ */
+
+
 async function addNote(req,res){
     const role = 'instructor'
     if(role === 'instructor'){
@@ -67,16 +85,137 @@ async function getNotes(req, res){
     }
 }
 
-async function getNoteById(req, res){
+// This function is used to get the expanded view of a note.
 
+async function getNoteById(req, res){
+    const {notecode} = req.params;
+    try {
+        const notes = await Note.findOne({ notecode });
+        if(!notes || notes.length === 0){
+            return res.status(404).json({ error: "No notes available for the current course" });
+        }
+        res.status(200).json(notes);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ error: `Error fetching notes: ${err.message}` });
+    }
 }
 
 async function updateNote(req, res){
+    const role = 'instructor';
+    if(role === 'instructor'){
+        const { notecode } = req.params;
+        const { crscode, title, explanation } = req.body;
+        const courseDetails = await Course.findOne({crscode});
+        let instructorId;
+        let currentUserId = 'in2d3s5ef534'
+        // let currentUserId = 'in2d3s5ef53'
+        if(courseDetails){
+            instructorId = courseDetails.instructorId;
+        }
+        else{
+            return res.status(404).json({ error: "Course with provided code not found" });
+        }
+    
+        if(currentUserId === instructorId){
+            try {
+                // Find the course by crscode and update it
+                const updatedItem = await Note.findOneAndUpdate(
+                    { notecode },
+                    { $set: { title, explanation } },
+                    { new: true } // Return the updated document
+                );
+        
+                if (updatedItem) {
+                    return res.status(200).json({ status: "Item updated", updatedItem });
+                } else {
+                    return res.status(404).json({ error: "Note with provided code not found" });
+                }
+            } catch (err) {
+                console.log(err);
+                return res.status(500).json({ error: "Internal server error" });
+            }
+        }
+        else{
+            return res.status(401).json({ error: "You are not authorized to perform this action" });
+        }
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+    }
 
 }
 
 async function deleteNote(req, res){
+    const role = 'instructor';
+    if(role === 'instructor'){
+        const { notecode } = req.params;
+        let crscodeObj
+        let instructorId;
+        let currentUserId = 'in2d3s5ef534'
 
+        const NoteItem = await Note.findOne({ notecode });
+        if(NoteItem){
+            const {crscode} = NoteItem;
+
+            const CourseItem = await Course.findOne({ crscode });
+            if(CourseItem){
+                instructorId = CourseItem.instructorId;
+            }
+            else{
+                return res.status(404).json({ error: "Course with the entered code not found" });
+            }
+
+            if(instructorId === currentUserId){
+                try {
+                    // Find the note by notecode and delete it
+                    const deletedItem = await Note.findOneAndDelete({ notecode });
+            
+                    if (deletedItem) {
+                        return res.status(200).json({ status: "Item deleted", deletedItem });
+                    } else {
+                        return res.status(404).json({ error: "Deletion unsuccessful" });
+                    }
+                } catch (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: "Internal server error" });
+                }
+            }
+            else{
+                return res.status(401).json({ error: "You are not authorized to perform this action" });
+            }   
+        }
+        else{
+            return res.status(404).json({ error: "Note with the entered code not found" });
+        }
+        
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+    }
 }
 
-module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote}
+/* --------- Video related functions --------- */
+
+async function uploadVideo(req, res){
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file found' });
+        }
+
+        const storageRef = ref(storage, req.file.originalname);
+        const metadata = {
+            contentType: 'video/mp4'
+        };
+
+        await uploadBytes(storageRef, req.file.buffer, metadata);
+        const url = await getDownloadURL(storageRef);
+
+        res.json({ url });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: `Error: ${error.message}` });
+    }
+
+}
+module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo}
