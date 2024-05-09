@@ -129,7 +129,52 @@ async function updateNote(req, res){
 }
 
 async function deleteNote(req, res){
+    const role = 'instructor';
+    if(role === 'instructor'){
+        const { notecode } = req.params;
+        let crscodeObj
+        let instructorId;
+        let currentUserId = 'in2d3s5ef534'
 
+        const NoteItem = await Note.findOne({ notecode });
+        if(NoteItem){
+            const {crscode} = NoteItem;
+
+            const CourseItem = await Course.findOne({ crscode });
+            if(CourseItem){
+                instructorId = CourseItem.instructorId;
+            }
+            else{
+                return res.status(404).json({ error: "Course with the entered code not found" });
+            }
+
+            if(instructorId === currentUserId){
+                try {
+                    // Find the note by notecode and delete it
+                    const deletedItem = await Note.findOneAndDelete({ notecode });
+            
+                    if (deletedItem) {
+                        return res.status(200).json({ status: "Item deleted", deletedItem });
+                    } else {
+                        return res.status(404).json({ error: "Deletion unsuccessful" });
+                    }
+                } catch (err) {
+                    console.log(err);
+                    return res.status(500).json({ error: "Internal server error" });
+                }
+            }
+            else{
+                return res.status(401).json({ error: "You are not authorized to perform this action" });
+            }   
+        }
+        else{
+            return res.status(404).json({ error: "Note with the entered code not found" });
+        }
+        
+    }
+    else{
+        return res.status(401).json({ error: "You are not authorized to perform this action" });
+    }
 }
 
 module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote}
