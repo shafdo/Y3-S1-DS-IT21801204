@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
-const {addNote, getNotes, getNoteById, updateNote, deleteNote} = require('../controllers/contentController')
+const {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo} = require('../controllers/contentController')
+const upload = multer({ storage: multer.memoryStorage() });
 
 /* Notes endpoints*/
 router.post('/note/add', addNote); // creating a note.
@@ -10,6 +12,7 @@ router.get('/note/get/:notecode', getNoteById); // get a note by passing an ID a
 router.patch('/note/update/:notecode', updateNote); // update the title and explanation of a note.
 router.delete('/note/delete/:notecode', deleteNote); // delete the note created.
 
-/*  */
+/* video upload functions */
+router.post('/video/media/add', upload.single('video'), uploadVideo);
 
 module.exports = router;

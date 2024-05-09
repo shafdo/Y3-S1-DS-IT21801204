@@ -3,6 +3,24 @@ const Course = require('../models/Course');
 const Note = require('../models/Note');
 const { v4: uuidv4 } = require('uuid');
 
+/* ------ Video upload ------ */
+const firebase = require('firebase/app');
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBl4UkVcQ84mkmWF52Vpd0DT4kbrO_RmnQ",
+    authDomain: "dsassignment-66e14.firebaseapp.com",
+    projectId: "dsassignment-66e14",
+    storageBucket: "dsassignment-66e14.appspot.com",
+    messagingSenderId: "461683121719",
+    appId: "1:461683121719:web:6b8d41cd6411819e3e29b2",
+    measurementId: "G-1W09E138C3"
+  };
+firebase.initializeApp(firebaseConfig);
+const storage = getStorage();
+/* ------ Video upload ------ */
+
+
 async function addNote(req,res){
     const role = 'instructor'
     if(role === 'instructor'){
@@ -177,4 +195,27 @@ async function deleteNote(req, res){
     }
 }
 
-module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote}
+/* --------- Video related functions --------- */
+
+async function uploadVideo(req, res){
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file found' });
+        }
+
+        const storageRef = ref(storage, req.file.originalname);
+        const metadata = {
+            contentType: 'video/mp4'
+        };
+
+        await uploadBytes(storageRef, req.file.buffer, metadata);
+        const url = await getDownloadURL(storageRef);
+
+        res.json({ url });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: `Error: ${error.message}` });
+    }
+
+}
+module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo}
