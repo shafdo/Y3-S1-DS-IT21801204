@@ -12,6 +12,49 @@ app.get("/", (req, res) => {
     res.send("Home Page");
 })
 
+/* video upload functionality (head) */
+const multer = require('multer');
+const firebase = require('firebase/app')
+const {getStorage, ref, uploadBytes, getDownloadURL} = require('firebase/storage')
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBl4UkVcQ84mkmWF52Vpd0DT4kbrO_RmnQ",
+    authDomain: "dsassignment-66e14.firebaseapp.com",
+    projectId: "dsassignment-66e14",
+    storageBucket: "dsassignment-66e14.appspot.com",
+    messagingSenderId: "461683121719",
+    appId: "1:461683121719:web:6b8d41cd6411819e3e29b2",
+    measurementId: "G-1W09E138C3"
+  };
+
+firebase.initializeApp(firebaseConfig);
+const storage = getStorage();
+const upload = multer({storage: multer.memoryStorage()});
+app.post('/content/video/add', upload.single("video"), (req,res)=> {
+    if(!req.file){
+        return res.status(400).json({message: 'No file found'});
+    }
+    
+    const StorageRef = ref(storage, req.file.originalname);
+    const metadata = {
+        contentType: 'video/mp4'
+    }
+    uploadBytes(StorageRef, req.file.buffer, metadata)
+    .then(()=> {
+        getDownloadURL(StorageRef).then(url => {
+            res.send({url})
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({message: `error: ${err}`})
+        })
+    })
+})
+
+
+
+/* video upload functionality (tail) */
+
 //defining the port numbers (if 8070 is not available, assign any available port number)
 const PORT = process.env.PORT || 8070;
 
