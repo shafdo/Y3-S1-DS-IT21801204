@@ -71,6 +71,16 @@ async function getNotes(req, res){
 
 async function getNoteById(req, res){
     const {notecode} = req.params;
+    try {
+        const notes = await Note.findOne({ notecode });
+        if(!notes || notes.length === 0){
+            return res.status(404).json({ error: "No notes available for the current course" });
+        }
+        res.status(200).json(notes);
+    } catch (error) {
+        console.error(err);
+        res.status(500).json({ error: `Error fetching notes: ${err.message}` });
+    }
 }
 
 async function updateNote(req, res){
