@@ -21,7 +21,7 @@ The base URL for all endpoints is localhost:8888/api/enrollments.
     - `404 Not Found`: Returns an error if the enrollment already exists.
 - Example:
     ```bash
-    POST /enrollments/course456/user123/add
+    POST localhost:8888/api/enrollments/course456/user123/add
     ```
 
 2.Get Enrollment Status
@@ -35,7 +35,7 @@ The base URL for all endpoints is localhost:8888/api/enrollments.
     - `200 OK`: Returns whether the user is enrolled (`true` or `false`).
 - Example:
     ```bash
-    GET /enrollments/course456/user123
+    GET localhost:8888/api/enrollments/course456/user123
     ```
 3.Delete Enrolled Course from Single Enrollment
     
@@ -49,7 +49,7 @@ The base URL for all endpoints is localhost:8888/api/enrollments.
     - `404 Not Found`: Returns an error if the user is not enrolled in the course.
 - Example:
     ```bash
-    DELETE /enrollments/course456/user123
+    DELETE localhost:8888/api/enrollments/course456/user123
     ```
 
 4.Delete Enrollment by User ID
@@ -63,7 +63,7 @@ The base URL for all endpoints is localhost:8888/api/enrollments.
     - `404 Not Found`: Returns an error if the user has no enrollments.
 - Example:
     ```bash
-    DELETE /enrollments/user123
+    DELETE localhost:8888/api/enrollments/user123
     ```
 5.Delete Course from All Enrollments
     
@@ -76,6 +76,6 @@ The base URL for all endpoints is localhost:8888/api/enrollments.
     - `404 Not Found`: Returns an error if no user is enrolled in the course.
 - Example:
     ```bash
-    DELETE /enrollments/remove/course/course456
+    DELETE localhost:8888/api/enrollments/remove/course/course456
     ```
 
