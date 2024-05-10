@@ -1,4 +1,21 @@
+import { useEffect } from 'react';
+import { createCourseAPIWrapper } from '../../../../api/course';
+
 const CourseCreatePage = () => {
+  const formHandler = async (payload) => {
+    const res = await createCourseAPIWrapper(payload);
+    console.log(res);
+  };
+
+  useEffect(() => {
+    formHandler({
+      crsname: 'Test 456',
+      description:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore expedita fugiat aliquam!',
+      price: 20000,
+    });
+  }, []);
+
   return (
     <>
       <p className="text-4xl text-center my-8">Create Course</p>
