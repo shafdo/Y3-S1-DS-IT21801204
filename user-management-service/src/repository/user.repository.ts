@@ -64,13 +64,12 @@ export const getUsersRepo = async (filter: {}, isPasswordVisible = false) => {
   return user;
 };
 
-export const findUserByUsernameAndRole = async ({
-  username,
-  role,
+export const findUserByFilter = async ({
+  filter,
 }: {
-  username: string;
+  filter: string;
   role: string;
 }) => {
-  const user = await User.findOne({ username, role });
+  const user = await User.findOne(filter);
   return user;
 };

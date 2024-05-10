@@ -1,7 +1,11 @@
 import express from 'express';
-import { createUser } from '@/controllers/user.controller';
+import { createUser, login } from '@/controllers/user.controller';
 import { validateData } from '@/middleware/joiValidate';
-import { userCreateSchema, userUpdateSchema } from '@/validations/user';
+import {
+  authSchema,
+  userCreateSchema,
+  userUpdateSchema,
+} from '@/validations/user';
 
 const userRouter = express.Router();
 
@@ -13,6 +17,7 @@ userRouter.get('/', (req, res) => {
   });
 });
 userRouter.post('/', validateData(userCreateSchema), createUser);
+userRouter.put('/login', validateData(authSchema), login);
 // Route definitions end
 
 export default userRouter;
