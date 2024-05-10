@@ -258,4 +258,56 @@ async function uploadVideo(req, res){
 
 }
 
-module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo}
+async function updateVideoDetails(req, res){
+    const {crscode, videoid} = req.params;
+    const {title} = req.body;
+
+    const newTitle = title;
+    // const courseObj = await Course.findOne({ crscode });
+
+    // if(!courseObj){
+    //     return res.status(404).json({message: 'Course with the crscode not found'})
+    // }
+
+    // const courseVideos = courseObj.videos;
+    // if(courseVideos.length === 0){
+    //     return res.status(404).json({message: 'No videos for the passed course'})
+    // }
+
+
+    // return res.status(200).json(courseObj.videos)
+
+    /* new */
+    try {
+        // Find the document by ID
+        const courseObj = await Course.findOne({ crscode });
+    
+        // If the document is not found, return 404 error
+        if (!courseObj) {
+          return res.status(404).json({ message: 'Course with the crscode not found' });
+        }
+    
+        // Find the video object in the "videos" array by its ID
+        const videoIndex = courseObj.videos.findIndex(video => video.id === videoid);
+    
+        // If the video object is not found, return 404 error
+        if (videoIndex === -1) {
+          return res.status(404).json({ message: 'Video not found' });
+        }
+    
+        // Update the title of the video object
+        courseObj.videos[videoIndex].title = newTitle;
+    
+        // Save the updated document to the database
+        const updatedObj = await courseObj.save();
+    
+        console.log('Video title updated successfully:', updatedObj);
+        res.json(updatedObj); // Send the updated object as response
+      } catch (error) {
+        console.error('Error updating video title:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    /* new */
+}
+
+module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo, updateVideoDetails}
