@@ -13,6 +13,6 @@ router.patch('/note/update/:notecode', updateNote); // update the title and expl
 router.delete('/note/delete/:notecode', deleteNote); // delete the note created.
 
 /* video upload functions */
-router.post('/video/media/add', upload.single('video'), uploadVideo);
+router.post('/video/media/add/:crscode', upload.single('video'), uploadVideo);
 
 module.exports = router;
