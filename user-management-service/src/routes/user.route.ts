@@ -1,5 +1,7 @@
-import { registerUser } from '@/controllers/user.controller';
 import express from 'express';
+import { createUser } from '@/controllers/user.controller';
+import { validateData } from '@/middleware/joiValidate';
+import { userCreateSchema, userUpdateSchema } from '@/validations/user';
 
 const userRouter = express.Router();
 
@@ -10,6 +12,7 @@ userRouter.get('/', (req, res) => {
     msg: 'user management api running.',
   });
 });
+userRouter.post('/', validateData(userCreateSchema), createUser);
 // Route definitions end
 
 export default userRouter;
