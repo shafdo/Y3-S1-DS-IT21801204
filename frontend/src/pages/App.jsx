@@ -8,6 +8,7 @@ import {
   CourseCreatePage,
   CourseEditPage,
   InstructorDashboardPage,
+  InstructorCourseView,
   MyCoursesPage,
 } from './';
 import HomePage from './home';
@@ -38,6 +39,10 @@ function App() {
         <Route
           path="/instructor/course/create"
           element={<CourseCreatePage />}
+        />
+        <Route
+          path="/instructor/course/view"
+          element={<InstructorCourseView />}
         />
         <Route path="/instructor/course/edit" element={<CourseEditPage />} />
         <Route path="/instructor/course/my" element={<MyCoursesPage />} />

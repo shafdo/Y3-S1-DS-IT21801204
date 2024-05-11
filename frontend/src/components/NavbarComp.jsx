@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react'
 import {Link} from 'react-router-dom'
 
-import { LoginRegisterContext } from '../../../context/LoginRegisterContext';
-
 export default function NavbarComp() {
   const [navbarOpen, setNavbarOpen] = useState(false)
 
