@@ -1,4 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   RegisterPage,
   LoginPage,
@@ -9,8 +13,8 @@ import {
   CourseEditPage,
   InstructorDashboardPage,
   MyCoursesPage,
+  HomePage,
 } from './';
-import HomePage from './home';
 
 function App() {
   return (
@@ -42,6 +46,8 @@ function App() {
         <Route path="/instructor/course/edit" element={<CourseEditPage />} />
         <Route path="/instructor/course/my" element={<MyCoursesPage />} />
       </Routes>
+
+      <ToastContainer position="top-right" autoClose={5000} />
     </Router>
   );
 }
