@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {addCourse, updateCourse, approveRejectRecheckCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse} = require('../controllers/courseController')
+const {addCourse, updateCourse, approveRejectRecheckCourse, getAllCourses, searchCourse, getMyCourses, getCourseById, getCoursesByArray, deleteCourse} = require('../controllers/courseController')
 
 router.get('/', getAllCourses);
+router.get('/search/:query', searchCourse);
 router.get('/course/:crscode', getCourseById);
 router.get('/personal', getMyCourses); // returns all the courses created by the instructor
 router.get('/byarray', getCoursesByArray); // returns all crscodes when an array is passed
