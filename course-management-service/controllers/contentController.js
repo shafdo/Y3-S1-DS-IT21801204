@@ -196,8 +196,38 @@ async function deleteNote(req, res){
 }
 
 /* --------- Video related functions --------- */
+async function addVideoDetails(crscode, videoData){
+    try {
+        // Find the document by ID
+        const obj = await Course.findOne({ crscode });
+    
+        // If the document is not found, return null
+        if (!obj) {
+          return null;
+        }
+    
+        // Create the video object with the provided data
+        const newVideo = {
+          id: videoData.id,
+          title: videoData.title,
+          src: videoData.src
+        };
+    
+        // Push the video object to the "videos" array
+        obj.videos.push(newVideo);
+    
+        // Save the updated document to the database
+        const updatedObj = await obj.save();
+        return updatedObj;
+      } catch (error) {
+        console.error('Error adding video:', error);
+        throw error;
+      }
+}
 
 async function uploadVideo(req, res){
+    const {crscode} = req.params;
+    const {title} = req.body;
     try {
         if (!req.file) {
             return res.status(400).json({ message: 'No file found' });
@@ -211,6 +241,15 @@ async function uploadVideo(req, res){
         await uploadBytes(storageRef, req.file.buffer, metadata);
         const url = await getDownloadURL(storageRef);
 
+        const vdiId = `vid_${generateUniqueCourseCode()}`
+
+        const videoData = {
+            id: vdiId,
+            title: title,
+            src: url
+        }
+
+        addVideoDetails(crscode, videoData);
         res.json({ url });
     } catch (error) {
         console.error(error);
@@ -218,4 +257,75 @@ async function uploadVideo(req, res){
     }
 
 }
-module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo}
+
+async function updateVideoDetails(req, res){
+    const {crscode, videoid} = req.params;
+    const {title} = req.body;
+
+    const newTitle = title;
+    try {
+        // Find the document by ID
+        const courseObj = await Course.findOne({ crscode });
+    
+        // If the document is not found, return 404 error
+        if (!courseObj) {
+          return res.status(404).json({ message: 'Course with the crscode not found' });
+        }
+    
+        // Find the video object in the "videos" array by its ID
+        const videoIndex = courseObj.videos.findIndex(video => video.id === videoid);
+    
+        // If the video object is not found, return 404 error
+        if (videoIndex === -1) {
+          return res.status(404).json({ message: 'Video not found' });
+        }
+    
+        // Update the title of the video object
+        courseObj.videos[videoIndex].title = newTitle;
+    
+        // Save the updated document to the database
+        const updatedObj = await courseObj.save();
+    
+        console.log('Video title updated successfully:', updatedObj);
+        res.json(updatedObj); // Send the updated object as response
+      } catch (error) {
+        console.error('Error updating video title:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
+async function deleteVideo(req, res) {
+    const {crscode, videoid} = req.params;
+  
+    try {
+      // Find the document by ID
+      const courseObj = await Course.findOne({ crscode });
+  
+      // If the document is not found, return 404 error
+      if (!courseObj) {
+        return res.status(404).json({ message: 'Course with the crscode not found' });
+      }
+  
+      // Find the index of the video object in the "videos" array by its ID
+      const videoIndex = courseObj.videos.findIndex(video => video.id === videoid);
+  
+      // If the video object is not found, return 404 error
+      if (videoIndex === -1) {
+        return res.status(404).json({ message: 'Video not found' });
+      }
+  
+      // Remove the video object from the "videos" array
+      courseObj.videos.splice(videoIndex, 1);
+  
+      // Save the updated document to the database
+      const updatedObj = await courseObj.save();
+  
+      console.log('Video deleted successfully from course:', updatedObj);
+      res.json(updatedObj); // Send the updated object as response
+    } catch (error) {
+      console.error('Error deleting video:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
+
+module.exports = {addNote, getNotes, getNoteById, updateNote, deleteNote, uploadVideo, updateVideoDetails, deleteVideo}

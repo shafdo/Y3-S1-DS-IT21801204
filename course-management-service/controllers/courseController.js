@@ -48,6 +48,18 @@ function generateUniqueCourseCode() {
     return uuidv4();
 }
 
+async function searchCourse(req, res){
+    const {query} = req.params;
+    try {
+        const results = await Course.find({ crsname: { $regex: new RegExp(query, 'i') } });
+        res.status(200).json(results);
+    }
+    catch (error) {
+        console.error('Error searching data:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 /* --------- Read functions ---------*/
 
 // An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses excluding the content.
@@ -290,4 +302,4 @@ async function deleteCourse(req, res){
 }
 
 
-module.exports = { addCourse, updateCourse, approveRejectRecheckCourse, getAllCourses, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
+module.exports = { addCourse, updateCourse, approveRejectRecheckCourse, getAllCourses, searchCourse, getMyCourses, getCourseById, getCoursesByArray, deleteCourse };
