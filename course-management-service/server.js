@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 8070;
 //Middlewares
 app.use(
   cors({
-    origin: 'http://localhost:4000',
+    origin: ['http://localhost:4000', 'http://127.0.0.1:4000'],
     credentials: true,
   })
 );

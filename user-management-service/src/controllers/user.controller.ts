@@ -46,6 +46,7 @@ export const login = async (req: Request, res: Response) => {
 
   // Generate auth token
   const authToken = await generateJWT({
+    uid: userData._id,
     username: userData.username,
     email: userData.email,
     role: userData.role,
