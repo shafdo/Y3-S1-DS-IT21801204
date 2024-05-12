@@ -15,3 +15,11 @@ export const createUserAPIWrapper = async ({
     role,
   });
 };
+
+export const loginUserAPIWrapper = async (email, password, role) => {
+  return await userApi.post('/user/login', {
+    email,
+    password,
+    role,
+  });
+};

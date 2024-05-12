@@ -9,12 +9,9 @@ import {
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { getRandomNumber } from '../utils/misc';
 
 const BlogCard = ({ title, desc, createdDate, author, price }) => {
-  const getRandomNumber = () => {
-    return Math.floor(Math.random() * 100);
-  };
-
   return (
     <Card className="max-w-[22rem] overflow-hidden mb-4">
       <CardHeader

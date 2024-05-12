@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
     role: req.body.role,
   });
 
-  // Employee not exist check. Employee password not match check.
+  // User not exist check. User password not match check.
   if (
     !userData ||
     (userData && !compareHash(userData.password, req.body.password))
@@ -55,6 +55,8 @@ export const login = async (req: Request, res: Response) => {
   res.cookie('auth', authToken, {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    httpOnly: false,
+    sameSite: 'lax',
   });
   return response({
     res,

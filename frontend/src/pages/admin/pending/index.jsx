@@ -1,9 +1,11 @@
+import NavbarComp from '../../../components/NavbarComp';
 import AdminCard from '../components/Card';
 import AdminTabList from '../components/Tablist';
 
 const AdminPendingCoursePage = () => {
   return (
     <>
+      <NavbarComp />
       <div className="flex justify-center my-8">
         <AdminTabList page="pending" />
       </div>

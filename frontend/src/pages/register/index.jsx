@@ -38,6 +38,13 @@ const RegisterPage = () => {
       });
 
       notify(res.data.message, 'success');
+
+      // Reset
+      setFullName('');
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     } catch (error) {
       return notify('Failed to register user. Please try again later', 'error');
     }

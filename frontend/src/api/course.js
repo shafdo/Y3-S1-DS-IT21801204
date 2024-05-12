@@ -12,6 +12,10 @@ export const getCourseAPIWrapper = async (courseId) => {
   return await courseApi.get(`/course/course/${courseId}`);
 };
 
+export const getAllCourseAPIWrapper = async () => {
+  return await courseApi.get(`/course`);
+};
+
 export const editCourseAPIWrapper = async ({
   courseId,
   crsname,
