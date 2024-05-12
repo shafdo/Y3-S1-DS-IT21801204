@@ -46,7 +46,7 @@ export default function NavbarComp() {
   const [navbarOpen, setNavbarOpen] = useState(false);
 
   return (
-    <nav className=" border-gray-200 bg-green-500 fixed top-0 w-full mx-auto z-50">
+    <nav className=" border-gray-200 bg-gray-300 fixed top-0 w-full mx-auto z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
@@ -54,7 +54,7 @@ export default function NavbarComp() {
             className="h-8"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="self-center text-2xl font-semibold whitespace-nowrap">
             Learnify
           </span>
         </Link>
@@ -88,25 +88,32 @@ export default function NavbarComp() {
         <div
           className={`${
             navbarOpen ? '' : 'hidden'
-          } w-full md:block md:w-auto" id="navbar-default`}
+          } mt-4 w-full md:block md:w-auto"`}
+          id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-green-500 dark:border-gray-700">
+          <ul className="font-medium flex flex-col p-4 md:p-0 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark:bg-green-500 dark:border-gray-700">
             {role === 'admin' ? (
               <>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link
+                    to="/"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
+                  >
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link
+                    to="/admin/dashboard/pending"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
+                  >
                     Review
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={logout}
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Logout
                   </button>
@@ -115,24 +122,24 @@ export default function NavbarComp() {
             ) : role === 'instructor' ? (
               <>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0">
                     Create
                   </Link>
                 </li>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0">
                     My Courses
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={logout}
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Logout
                   </button>
@@ -141,19 +148,19 @@ export default function NavbarComp() {
             ) : role === 'learner' ? (
               <>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0">
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                  <Link className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0">
                     My Courses
                   </Link>
                 </li>
                 <li>
                   <button
                     onClick={logout}
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Logout
                   </button>
@@ -163,7 +170,7 @@ export default function NavbarComp() {
               <>
                 <li>
                   <Link
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0"
                     to="/"
                   >
                     Home
@@ -171,7 +178,7 @@ export default function NavbarComp() {
                 </li>
                 <li>
                   <Link
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-green-600 md:p-0 dark:text-white md:dark:hover:text-green-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0"
                     to="/login"
                   >
                     Login
