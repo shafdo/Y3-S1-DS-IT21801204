@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import compression from 'compression';
 import cors from 'cors';
 import apiRoutesV1 from '@/routes';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -14,6 +15,19 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true }));
 // Settings End
+
+//connecting the database
+const URL: string = process.env.MONGODB_URL || '';
+console.log(URL);
+
+//mongoDB configurations
+mongoose.connect(URL, {});
+
+//creating the connection
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('MongoDB Connection Successful');
+});
 
 // Routes
 app.use('/api/v1', apiRoutesV1);
