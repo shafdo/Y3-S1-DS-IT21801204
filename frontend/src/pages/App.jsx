@@ -13,6 +13,7 @@ import {
   CourseEditPage,
   InstructorDashboardPage,
   InstructorCourseView,
+  InstructorCreateNote,
   MyCoursesPage,
   HomePage,
 } from './';
@@ -47,6 +48,10 @@ function App() {
         <Route
           path="/instructor/course/view"
           element={<InstructorCourseView />}
+        />
+        <Route
+          path="/instructor/course/note/create"
+          element={<InstructorCreateNote />}
         />
         <Route path="/instructor/course/edit" element={<CourseEditPage />} />
         <Route path="/instructor/course/my" element={<MyCoursesPage />} />

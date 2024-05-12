@@ -7,5 +7,6 @@ export { default as AdminRejectedCoursePage } from './admin/rejected';
 export { default as CourseCreatePage } from './instructor/course/create';
 export { default as CourseEditPage } from './instructor/course/edit';
 export { default as InstructorCourseView } from './instructor/course/view';
+export { default as InstructorCreateNote } from './instructor/course/createNote';
 export { default as InstructorDashboardPage } from './instructor/dashboard';
 export { default as MyCoursesPage } from './instructor/course/my';

@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import editIcon from '../../../../assets/editIcon.svg'
 import rightArrowIcon from '../../../../assets/arrowRight.svg'
 import videoIcon from '../../../../assets/videoIcon.svg'
@@ -7,6 +8,7 @@ import playIcon from '../../../../assets/play.svg'
 import trashIcon from '../../../../assets/trash.svg'
 
 const InstructorCourseView = () => {
+    const navigate = useNavigate()
   return (
     <div className='min-h-screen w-full text-center'>
       <div className="top_filler w-full h-[60px]"></div>
@@ -79,7 +81,11 @@ const InstructorCourseView = () => {
         <h1 className='text-[40px] text-gray-700'>Notes</h1>
         <div className="w-full h-[300px] overflow-x-auto flex items-center mb-3">
             
-            <div className="flex flex-col mt-3 items-center justify-center h-[280px] w-[280px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_black]">
+            <div
+            onClick={()=> {
+                navigate('/instructor/course/note/create')
+            }}
+            className="flex flex-col mt-3 items-center justify-center h-[280px] w-[280px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_black]">
                 <div className='relative h-[110px] w-[110px] rounded-[50%] flex items-center justify-center border-[1px] border-[solid] border-gray-500'>
                     <div className='absolute h-1 w-10 bg-gray-300 rounded-md'></div>
                     <div className='h-1 w-10 bg-gray-300 rounded-md rotate-90'></div>
