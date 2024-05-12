@@ -10,5 +10,6 @@ export { default as InstructorCourseView } from './instructor/course/view';
 export { default as InstructorCreateNote } from './instructor/course/createNote';
 export { default as InstructorUpdateNote } from './instructor/course/updateNote';
 export { default as ViewNote } from './instructor/course/viewNote';
+export { default as LearnerCourseView } from './learner/course/view';
 export { default as InstructorDashboardPage } from './instructor/dashboard';
 export { default as MyCoursesPage } from './instructor/course/my';
