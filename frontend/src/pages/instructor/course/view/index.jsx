@@ -104,7 +104,11 @@ const InstructorCourseView = () => {
                     >
                         <img src={editIcon} alt="" />
                     </button>
-                    <button className='flex items-center mx-4 border-[1px] border-solid border-gray-600 p-1 rounded-lg'>
+                    <button
+                    onClick={()=>{
+                        navigate('/course/view/note')
+                    }}
+                    className='flex items-center mx-4 border-[1px] border-solid border-gray-600 p-1 rounded-lg'>
                         <p className='mx-2 text-gray-600'>View More</p>
                         <img src={rightArrowIcon} alt="" />
                     </button>

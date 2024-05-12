@@ -15,6 +15,7 @@ import {
   InstructorCourseView,
   InstructorCreateNote,
   InstructorUpdateNote,
+  ViewNote,
   MyCoursesPage,
   HomePage,
 } from './';
@@ -57,6 +58,10 @@ function App() {
         <Route
           path="/instructor/course/note/update"
           element={<InstructorUpdateNote />}
+        />
+        <Route
+          path="/course/view/note"
+          element={<ViewNote />}
         />
         <Route path="/instructor/course/edit" element={<CourseEditPage />} />
         <Route path="/instructor/course/my" element={<MyCoursesPage />} />
