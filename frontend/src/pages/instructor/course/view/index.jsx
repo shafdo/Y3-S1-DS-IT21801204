@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getCourseAPIWrapper } from '../../../../api/course'
 import editIcon from '../../../../assets/editIcon.svg'
 import rightArrowIcon from '../../../../assets/arrowRight.svg'
 import videoIcon from '../../../../assets/videoIcon.svg'
@@ -9,14 +10,29 @@ import trashIcon from '../../../../assets/trash.svg'
 
 const InstructorCourseView = () => {
     const navigate = useNavigate()
-  return (
+    const [courseData, setCourseData] = useState({});
+    useEffect(()=> {
+        const url = new URL(window.location.href);
+        const crscode = url.searchParams.get('crscode');
+
+        const fetchData = async() => {
+            const res = await getCourseAPIWrapper(crscode)
+            setCourseData(res.data)
+        }
+        fetchData();
+    }, [])
+    return (
     <div className='min-h-screen w-full text-center'>
       <div className="top_filler w-full h-[60px]"></div>
       <h1 className='text-[80px]'>Welcome to!</h1>
-      <h1 className='text-[100px] min-[500px]:text-sm leading-[110px] text-gray-700'>Introduction to javascript, and the basics of REACT</h1>
-      <p className='my-[20px] w-[90%] mx-auto text-md border-[2px] border-[solid] border-green-200 p-3 rounded-3xl'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ab placeat eos dolor eaque reprehenderit et fugit accusantium molestias perferendis voluptates voluptatem magni nostrum repellat ex est, voluptas, voluptatum omnis non voluptatibus tenetur. Fugit autem accusantium, adipisci, quaerat tempore necessitatibus voluptatum possimus vero iure deleniti magni sint explicabo dolorem ex ducimus dolorum natus ab labore fuga ipsum temporibus quae! Eveniet ratione dolor consequuntur at debitis quam magni et soluta explicabo obcaecati quasi corrupti, distinctio eum id quae veniam aliquam? Placeat maiores pariatur ex explicabo, culpa exercitationem ea consequuntur, unde repudiandae, quo voluptates qui dolorem mollitia praesentium quidem adipisci quasi molestias.</p>
+      <h1 className='text-[100px] min-[500px]:text-sm leading-[110px] text-gray-700'>{courseData.crsname}</h1>
+      <p className='my-[20px] w-[90%] mx-auto text-md border-[2px] border-[solid] border-green-200 p-3 rounded-3xl'>{courseData.description}</p>
       <div className='edit_btn py-8 h-auto flex flex-col items-center justify-center overflow-hidden border-t-[2px] border-t-[solid] border-t-gray-400'>
-        <button className='mt-2 h-[40px] w-fit border-[2px] border-[solid] border-green-200 rounded-[100px] flex items-center justify-center px-2'>
+        <button 
+        onClick={()=> {
+            navigate(`/instructor/course/edit?crscode=${courseData.crscode}`)
+        }}
+        className='mt-2 h-[40px] w-fit border-[2px] border-[solid] border-green-200 rounded-[100px] flex items-center justify-center px-2'>
             <img className='h-4' src={editIcon} alt="" />
             <p className='mx-2 text-green-400'>edit</p>
             <img className='mx-1' src={rightArrowIcon} alt="" />

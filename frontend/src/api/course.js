@@ -16,6 +16,10 @@ export const getAllCourseAPIWrapper = async () => {
   return await courseApi.get(`/course`);
 };
 
+export const deleteCourseByIdAPIWrapper = async (courseId) => {
+  return await courseApi.delete(`/course/delete/${courseId}`);
+};
+
 export const editCourseAPIWrapper = async ({
   courseId,
   crsname,
