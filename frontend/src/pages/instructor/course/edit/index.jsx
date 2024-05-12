@@ -41,6 +41,7 @@ const CourseEditPage = () => {
     const res = await editCourseAPIWrapper(payload);
     if (res.data.status) {
       notify('Course updated successfully', 'success');
+      navigate(-1)
       return;
     }
 

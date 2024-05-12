@@ -1,6 +1,7 @@
 import { faQuestion, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getAllCourseAPIWrapper } from '../../../../api/course';
+import { notify } from '../../../../utils/notifier';
+import { getAllCourseAPIWrapper, deleteCourseByIdAPIWrapper } from '../../../../api/course';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getRandomNumber } from '../../../../utils/misc';
@@ -12,6 +13,18 @@ const MyCoursesPage = () => {
     const res = await getAllCourseAPIWrapper();
     setCourses(res.data);
   };
+
+  const deleteCourse = async(crscode)=> {
+    const deleteCon = window.confirm('Do you want to delete this course');
+    if(deleteCon){
+      const deletedData = await deleteCourseByIdAPIWrapper(crscode)
+      notify('Course deleted successfully', 'success');
+      window.location.reload();
+    }
+    else{
+      return
+    }
+  }
 
   useEffect(() => {
     fetchCourse();
@@ -95,7 +108,9 @@ const MyCoursesPage = () => {
                 </td>
 
                 <td className="p-3 pr-0 text-end">
-                  <button className="ml-auto text-red-500 relative text-secondary-dark flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
+                  <button
+                  onClick={()=> {deleteCourse(course.crscode)}}
+                  className="ml-auto text-red-500 relative text-secondary-dark flex items-center h-[25px] w-[25px] text-base font-medium leading-normal text-center align-middle cursor-pointer rounded-2xl transition-colors duration-200 ease-in-out shadow-none border-0 justify-center">
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </td>
