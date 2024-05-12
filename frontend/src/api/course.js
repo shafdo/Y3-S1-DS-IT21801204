@@ -32,3 +32,7 @@ export const editCourseAPIWrapper = async ({
     price,
   });
 };
+
+export const reviewCourseAPIWrapper = async (courseId, payload) => {
+  return await courseApi.patch(`/course/patch/${courseId}`, payload);
+};

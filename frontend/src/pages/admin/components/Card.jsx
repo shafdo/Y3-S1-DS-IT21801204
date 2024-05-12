@@ -9,9 +9,15 @@ import {
 import PropTypes from 'prop-types';
 import { getRandomNumber } from '../../../utils/misc';
 
-const AdminCard = ({ title, desc, showFooter }) => {
+const AdminCard = ({
+  title,
+  desc,
+  showFooter,
+  acceptBtnActionFunc = () => {},
+  rejectBtnActionFunc = () => {},
+}) => {
   return (
-    <Card className="w-full max-w-[25rem] shadow-lg mb-8">
+    <Card className="w-full max-w-[25rem] shadow-lg mb-8 block mx-auto">
       <CardHeader floated={false} color="blue-gray">
         <img
           src={`https://source.unsplash.com/random/500x400/?tech&orientation=landscape&sig=${getRandomNumber()}`}
@@ -29,10 +35,21 @@ const AdminCard = ({ title, desc, showFooter }) => {
       </CardBody>
       {showFooter && (
         <CardFooter className="pt-3 flex">
-          <Button size="lg" fullWidth={true} className="mx-4">
+          <Button
+            size="lg"
+            fullWidth={true}
+            className="mx-4"
+            onClick={acceptBtnActionFunc}
+          >
             Accept
           </Button>
-          <Button size="lg" color="red" fullWidth={true} className="mx-4">
+          <Button
+            size="lg"
+            color="red"
+            fullWidth={true}
+            className="mx-4"
+            onClick={rejectBtnActionFunc}
+          >
             Reject
           </Button>
         </CardFooter>
@@ -45,6 +62,8 @@ AdminCard.propTypes = {
   title: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired,
   showFooter: PropTypes.bool.isRequired,
+  acceptBtnActionFunc: PropTypes.func,
+  rejectBtnActionFunc: PropTypes.func,
 };
 
 export default AdminCard;

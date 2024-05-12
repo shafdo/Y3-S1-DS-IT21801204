@@ -3,6 +3,8 @@ import NavbarComp from '../../../components/NavbarComp';
 import AdminCard from '../components/Card';
 import AdminTabList from '../components/Tablist';
 import { getAllCourseAPIWrapper } from '../../../api/course';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const AdminApprovedCoursePage = () => {
   const [courses, setCourses] = useState([]);
@@ -35,11 +37,16 @@ const AdminApprovedCoursePage = () => {
               <AdminCard
                 title={course.crsname}
                 desc={course.description}
-                showFooter={true}
+                showFooter={false}
               />
             </div>
           ))}
         </div>
+        {courses.length <= 0 && (
+          <h1 className="text-xl text-center">
+            <FontAwesomeIcon icon={faQuestion} /> No Approved Courses
+          </h1>
+        )}
       </div>
     </>
   );
