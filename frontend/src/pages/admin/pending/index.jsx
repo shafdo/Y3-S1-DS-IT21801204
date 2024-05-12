@@ -20,7 +20,7 @@ const AdminPendingCoursePage = () => {
     <>
       <NavbarComp />
 
-      <div className="flex justify-center mt-36 my-8">
+      <div className="flex justify-center mt-44 my-8">
         <AdminTabList page="pending" />
       </div>
 

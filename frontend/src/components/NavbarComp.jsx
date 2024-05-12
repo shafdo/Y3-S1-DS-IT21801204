@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { jwtDecode } from 'jwt-decode';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+  faBook,
+  faChevronRight,
+  faSmile,
+  faStar,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function NavbarComp() {
   const navigate = useNavigate();
@@ -49,12 +57,11 @@ export default function NavbarComp() {
     <nav className=" border-gray-200 bg-gray-300 fixed top-0 w-full mx-auto z-50">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            className="text-5xl text-green-600 font-bold mb-4 block mx-auto"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap">
+          <span className="self-center text-4xl font-semibold border-green-600 pb-2 border-b-4 whitespace-nowrap tracking-wider">
             Learnify
           </span>
         </Link>
@@ -97,7 +104,7 @@ export default function NavbarComp() {
                 <li>
                   <Link
                     to="/"
-                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 border-black transition-all md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Home
                   </Link>
@@ -105,7 +112,7 @@ export default function NavbarComp() {
                 <li>
                   <Link
                     to="/admin/dashboard/pending"
-                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 border-black transition-all md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Review
                   </Link>
@@ -113,7 +120,7 @@ export default function NavbarComp() {
                 <li>
                   <button
                     onClick={logout}
-                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 md:hover:bg-transparent md:border-0 md:p-0"
+                    className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 border-black transition-all md:hover:bg-transparent md:border-0 md:p-0"
                   >
                     Logout
                   </button>

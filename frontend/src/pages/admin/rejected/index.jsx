@@ -20,12 +20,12 @@ const AdminRejectedCoursePage = () => {
     <>
       <NavbarComp />
 
-      <div className="flex justify-center mt-36 my-8">
+      <div className="flex justify-center mt-44 my-8">
         <AdminTabList page="rejected" />
       </div>
 
       <div className="block">
-        <p className="text-center text-4xl my-8">Approved Courses</p>
+        <p className="text-center text-4xl my-8">Rejected Courses</p>
       </div>
 
       <div className="container mx-auto">
