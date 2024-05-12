@@ -55,7 +55,7 @@ const InstructorCourseView = () => {
         
       </div>
       <div className='content_holder w-full h-auto '>
-        <h1>Videos</h1>
+        <h1 className='text-[40px] text-gray-700'>Videos</h1>
         <div className="flex items-center w-full h-[250px] overflow-x-auto overflow-y-visible">
 
             <div className="flex flex-col items-center justify-center border-[2px] border-solid border-green-200 h-[200px] w-[200px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_black]">
@@ -76,8 +76,35 @@ const InstructorCourseView = () => {
             </div>
             
         </div>
-        <h1>Notes</h1>
-        <div className="w-full h-[300px] bg-blue-300"></div>
+        <h1 className='text-[40px] text-gray-700'>Notes</h1>
+        <div className="w-full h-[300px] overflow-x-auto flex items-center mb-3">
+            
+            <div className="flex flex-col mt-3 items-center justify-center h-[280px] w-[280px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_black]">
+                <div className='relative h-[110px] w-[110px] rounded-[50%] flex items-center justify-center border-[1px] border-[solid] border-gray-500'>
+                    <div className='absolute h-1 w-10 bg-gray-300 rounded-md'></div>
+                    <div className='h-1 w-10 bg-gray-300 rounded-md rotate-90'></div>
+                </div>
+            </div>
+
+            <div className="flex flex-col mt-3 items-center justify-center h-[280px] w-[280px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_black]">
+                <h1 className='text-2xl'>Title</h1>
+                <div className='h-[1px] w-[80%] bg-gray-600 rounded-lg'></div>
+                <p className='max-h-[172px] w-[90%] overflow-hidden'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim doloribus nam assumenda eum molestias sint temporibus officia, pariatur, animi quibusdam voluptas distinctio velit obcaecati asperiores similique excepturi, quidem possimus eos numquam nihil provident! Fugit eligendi ad, voluptatum id voluptas rem praesentium! Fugiat architecto est autem asperiores quas ducimus. Aliquid error vel possimus nam esse repellendus voluptatum eos magni et quod, quia tenetur dolore libero inventore iste illo natus doloremque harum adipisci! Labore blanditiis nihil omnis tempora, quis temporibus qui, beatae quibusdam, inventore ut tempore velit dolore corrupti hic repellendus perferendis id corporis! Magnam fugit eius enim eos aperiam numquam debitis?</p>
+                <div className='w-full h-[40px] flex items-center justify-center'>
+                    <button>
+                        <img src={editIcon} alt="" />
+                    </button>
+                    <button className='flex items-center mx-4 border-[1px] border-solid border-gray-600 p-1 rounded-lg'>
+                        <p className='mx-2 text-gray-600'>View More</p>
+                        <img src={rightArrowIcon} alt="" />
+                    </button>
+                    <button>
+                        <img src={trashIcon} alt="" />
+                    </button>
+                </div>
+            </div>
+
+        </div>
       </div>
     </div>
   )
