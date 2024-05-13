@@ -9,10 +9,29 @@ import {
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import { addEnrollmentAPIWrapper, checkEnrollmentAPIWrapper } from '../api/enrollment';
+import { notify } from '../utils/notifier';
 
-const BlogCard = ({ title, desc, createdDate, author, price }) => {
+const BlogCard = ({ title, desc, createdDate, author, price, courseId }) => {
   const getRandomNumber = () => {
     return Math.floor(Math.random() * 100);
+  };
+
+  const handleEnrollment = async () => {
+    try {
+      let userId = 123456789; // Replace with the actual user ID
+      const isEnrolled = await checkEnrollmentAPIWrapper(userId, courseId);
+      
+      if (!isEnrolled) {
+        await addEnrollmentAPIWrapper(userId, courseId);
+        notify('Enrollment successful!', 'success')
+      } else {
+        notify('You are already enrolled in this course.', 'error')
+      }
+    } catch (error) {
+        console.error('Error adding enrollment:', error); 
+        notify('Error adding enrollment. Please try again.', 'error')
+    }
   };
 
   return (
@@ -48,7 +67,7 @@ const BlogCard = ({ title, desc, createdDate, author, price }) => {
           Created Date: {createdDate}
         </Typography>
         <div className="mt-4 flex justify-end">
-          <Button size="sm" color="green" className="flex items-center">
+          <Button size="sm" color="green" className="flex items-center" onClick={handleEnrollment}>
             <FontAwesomeIcon icon={faDollar} className="text-xl" />
             <p className="ml-2 text-xl">{price}</p>
           </Button>

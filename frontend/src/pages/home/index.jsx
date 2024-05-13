@@ -12,6 +12,7 @@ const HomePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={20}
+            courseId="1"
           />
           <BlogCard
             title="API Testing with Postman"
@@ -19,6 +20,7 @@ const HomePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={20}
+            courseId="2"
           />
           <BlogCard
             title="API Testing with Postman"
@@ -26,6 +28,7 @@ const HomePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={20}
+            courseId="3"
           />
           <BlogCard
             title="API Testing with Postman"
@@ -33,6 +36,7 @@ const HomePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={20}
+            courseId="4"
           />
           <BlogCard
             title="API Testing with Postman"
@@ -40,6 +44,7 @@ const HomePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={20}
+            courseId="5"
           />
         </div>
       </div>

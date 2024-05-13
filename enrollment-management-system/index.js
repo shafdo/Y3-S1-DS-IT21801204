@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import enrollmentRoute from "./routes/enrollments.js";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
@@ -28,6 +29,12 @@ mongoose.connection.on("connected", () => {
 //middlwares
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+    cors({
+      origin: 'http://localhost:4000',
+      credentials: true,
+    })
+);
 
 app.use("/api/enrollments", enrollmentRoute);
 
