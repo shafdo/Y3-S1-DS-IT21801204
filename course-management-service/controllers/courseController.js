@@ -84,11 +84,9 @@ async function getAllCourses(req, res) {
     res.json(courseItems);
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error: `Cannot fetch course details at the moment. Err: ${err}`,
-      });
+    res.status(500).json({
+      error: `Cannot fetch course details at the moment. Err: ${err}`,
+    });
   }
 }
 
@@ -127,11 +125,9 @@ async function getCourseById(req, res) {
     res.json(courseItem);
   } catch (err) {
     console.log(err);
-    res
-      .status(500)
-      .json({
-        status: `Cannot fetch course details at the moment. Err: ${err}`,
-      });
+    res.status(500).json({
+      status: `Cannot fetch course details at the moment. Err: ${err}`,
+    });
   }
 }
 
@@ -154,11 +150,9 @@ async function getCoursesByArray(req, res) {
     }
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({
-        error: `Cannot fetch course details at the moment. Err: ${err}`,
-      });
+    res.status(500).json({
+      error: `Cannot fetch course details at the moment. Err: ${err}`,
+    });
   }
 }
 
@@ -219,7 +213,12 @@ async function approveRejectRecheckCourse(req, res) {
   const { status, remarks } = req.body;
   let currentUserId = 'in2d3s5ef534'; // mocks the id value stored in session
   if (role === 'admin') {
-    if ((status === 'approved' || status === 'rejected') && remarks !== null) {
+    if (
+      (status === 'approved' ||
+        status === 'rejected' ||
+        status === 'pending') &&
+      remarks !== null
+    ) {
       const courseDetails = await Course.findOne({ crscode });
       if (courseDetails) {
         instructorId = courseDetails.instructorId;

@@ -1,10 +1,28 @@
+import { useEffect, useState } from 'react';
+import NavbarComp from '../../../components/NavbarComp';
 import AdminCard from '../components/Card';
 import AdminTabList from '../components/Tablist';
+import { getAllCourseAPIWrapper } from '../../../api/course';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const AdminRejectedCoursePage = () => {
+  const [courses, setCourses] = useState([]);
+
+  const fetchCourses = async () => {
+    const res = await getAllCourseAPIWrapper();
+    setCourses(res.data.filter((course) => course.status === 'rejected'));
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   return (
     <>
-      <div className="flex justify-center my-8">
+      <NavbarComp />
+
+      <div className="flex justify-center mt-44 my-8">
         <AdminTabList page="rejected" />
       </div>
 
@@ -14,12 +32,22 @@ const AdminRejectedCoursePage = () => {
 
       <div className="container mx-auto">
         <div className="grid grid-cols-3 gap-4">
-          <AdminCard
-            title="Hello World"
-            desc="Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem doloribus animi at obcaecati. Perspiciatis, ut sapiente nobis assumenda eius maiores delectus eaque ducimus optio recusandae fuga minus amet praesentium quia!"
-            showFooter={false}
-          />
+          {courses.map((course, index) => (
+            <div key={index}>
+              <AdminCard
+                title={course.crsname}
+                desc={course.description}
+                showFooter={false}
+              />
+            </div>
+          ))}
         </div>
+
+        {courses.length <= 0 && (
+          <h1 className="text-xl text-center">
+            <FontAwesomeIcon icon={faQuestion} /> No Rejected Courses
+          </h1>
+        )}
       </div>
     </>
   );
