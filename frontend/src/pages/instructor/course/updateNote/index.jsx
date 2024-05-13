@@ -1,17 +1,39 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { editNoteAPIWrapper } from '../../../../api/content';
 import { useState } from 'react';
+import { notify } from '../../../../utils/notifier';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const InstructorUpdateNote = () => {
     const [noteTitle, setNoteTitle] = useState('');
     const [noteExplanation, setNoteExplanation] = useState('');
+    const navigate = useNavigate()
+    const location = useLocation();
+    const data = location.state.data;
+    
+    const formHandler = async () => {
+      const payload = {
+        notecode: data.notecode,
+        crscode: data.crscode,
+        title: noteTitle,
+        explanation: noteExplanation,
+      };
   
-  //   const formHandler = async (payload) => {
-  //     const res = await createCourseAPIWrapper(payload);
-  //     notify(res.data.status, 'success');
-  //     setCourseName('');
-  //     setCourseDesc('');
-  //     setCoursePrice('');
-  //   };
+      const res = await editNoteAPIWrapper(payload);
+      if (res.data.status) {
+        notify('Note updated successfully', 'success');
+        navigate(-1)
+        return;
+      }
+  
+      notify('Course update failed', 'error');
+    };
+    
+    useEffect(()=> {
+      setNoteTitle(data.title)
+      setNoteExplanation(data.explanation)
+    }, [data])
+    
   
     return (
       <>
@@ -51,10 +73,11 @@ const InstructorUpdateNote = () => {
           </div>
           <div className="flex items-center justify-between">
             <button
+            onClick={formHandler}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
-              Create note
+              Update note
             </button>
           </div>
         </form>
