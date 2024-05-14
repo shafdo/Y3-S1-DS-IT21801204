@@ -3,13 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { jwtDecode } from 'jwt-decode';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faArrowRight,
-  faBook,
-  faChevronRight,
-  faSmile,
-  faStar,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function NavbarComp() {
   const navigate = useNavigate();
@@ -114,7 +108,7 @@ export default function NavbarComp() {
                     to="/admin/dashboard/pending"
                     className="block py-2 px-3 text-gray-900 rounded hover:border-b-4 border-black transition-all md:hover:bg-transparent md:border-0 md:p-0"
                   >
-                    Review
+                    Admin Dashboard
                   </Link>
                 </li>
                 <li>
