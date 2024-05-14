@@ -17,8 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Settings End
 
 //connecting the database
-const URL: string = process.env.MONGO_URI || '';
-console.log(URL);
+const URL: string = process.env.MONGODB_URL || '';
 
 //mongoDB configurations
 mongoose.connect(URL, {});

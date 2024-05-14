@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { createUserAPIWrapper } from '../../api/user';
+import { notify } from '../../utils/notifier';
 
 const RegisterPage = () => {
   const [selectedRole, setSelectedRole] = useState('admin');
+  const [fullName, setFullName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const selectRole = (role, event) => {
     event.preventDefault();
@@ -11,6 +18,35 @@ const RegisterPage = () => {
       setSelectedRole(null);
     } else {
       setSelectedRole(role);
+    }
+  };
+
+  const formHandler = async (e) => {
+    e.preventDefault();
+
+    if (password != confirmPassword) {
+      return notify('Password not match with confirm password.', 'error');
+    }
+
+    try {
+      const res = await createUserAPIWrapper({
+        fname: fullName,
+        username,
+        email,
+        password,
+        role: selectedRole,
+      });
+
+      notify(res.data.message, 'success');
+
+      // Reset
+      setFullName('');
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    } catch (error) {
+      return notify('Failed to register user. Please try again later', 'error');
     }
   };
 
@@ -98,7 +134,9 @@ const RegisterPage = () => {
               type="text"
               name=""
               id=""
+              value={fullName}
               placeholder="Full name"
+              onChange={(e) => setFullName(e.target.value)}
             />
           </div>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -121,7 +159,9 @@ const RegisterPage = () => {
               type="text"
               name=""
               id=""
+              value={username}
               placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
@@ -141,10 +181,35 @@ const RegisterPage = () => {
             </svg>
             <input
               className="pl-2 outline-none border-none w-full"
-              type="text"
+              type="email"
               name=""
               id=""
+              value={email}
               placeholder="Email Address"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-gray-400"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+            <input
+              className="pl-2 outline-none border-none w-full"
+              type="password"
+              name=""
+              id=""
+              value={password}
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
@@ -162,14 +227,16 @@ const RegisterPage = () => {
             </svg>
             <input
               className="pl-2 outline-none border-none w-full"
-              type="text"
+              type="password"
               name=""
               id=""
-              placeholder="Password"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
           <button
-            type="submit"
+            onClick={formHandler}
             className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
           >
             Register

@@ -4,9 +4,20 @@ import {
   getCourseAPIWrapper,
 } from '../../../../api/course';
 import { notify } from '../../../../utils/notifier';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const CourseEditPage = () => {
-  const courseId = 'b4dfa464-4657-426e-aa5e-8918ace4ea92';
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const courseId = searchParams.get('crscode');
+  console.log(courseId);
+
+  useEffect(() => {
+    if (courseId == null) {
+      return navigate('/');
+    }
+  }, [courseId]);
 
   const [courseName, setCourseName] = useState('');
   const [courseDesc, setCourseDesc] = useState('');
@@ -30,6 +41,7 @@ const CourseEditPage = () => {
     const res = await editCourseAPIWrapper(payload);
     if (res.data.status) {
       notify('Course updated successfully', 'success');
+      navigate(-1)
       return;
     }
 

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { createCourseAPIWrapper } from '../../../../api/course';
 import { notify } from '../../../../utils/notifier';
+import { useNavigate } from 'react-router-dom';
 
 const CourseCreatePage = () => {
   const [courseName, setCourseName] = useState('');
   const [courseDesc, setCourseDesc] = useState('');
   const [coursePrice, setCoursePrice] = useState('');
+
+  const navigate = useNavigate();
 
   const formHandler = async (payload) => {
     const res = await createCourseAPIWrapper(payload);
@@ -13,6 +16,8 @@ const CourseCreatePage = () => {
     setCourseName('');
     setCourseDesc('');
     setCoursePrice('');
+
+    navigate('/instructor/course/my')
   };
 
   return (

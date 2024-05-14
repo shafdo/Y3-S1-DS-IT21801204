@@ -1,8 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { loginUserAPIWrapper } from '../../api/user';
+import { notify } from '../../utils/notifier';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const [selectedRole, setSelectedRole] = useState('admin');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const selectRole = (role, event) => {
     event.preventDefault();
@@ -11,6 +17,29 @@ const LoginPage = () => {
       setSelectedRole(null);
     } else {
       setSelectedRole(role);
+    }
+  };
+
+  const formHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await loginUserAPIWrapper(email, password, selectedRole);
+      notify(res.data.message, 'success');
+      setTimeout(() => {
+        switch (selectedRole) {
+          case 'admin':
+            return navigate('/admin/dashboard/pending');
+
+          case 'instructor':
+            return navigate('/instructor/dashboard');
+
+          case 'student':
+            navigate('/student/dashboard');
+            break;
+        }
+      }, 3000);
+    } catch (error) {
+      notify(error.response.data.message, 'error');
     }
   };
 
@@ -95,10 +124,12 @@ const LoginPage = () => {
             </svg>
             <input
               className="pl-2 outline-none border-none w-full"
-              type="text"
+              type="email"
               name=""
               id=""
+              value={email}
               placeholder="Email Address"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl">
@@ -116,14 +147,16 @@ const LoginPage = () => {
             </svg>
             <input
               className="pl-2 outline-none border-none w-full"
-              type="text"
+              type="password"
               name=""
               id=""
+              value={password}
               placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button
-            type="submit"
+            onClick={formHandler}
             className="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
           >
             Login
