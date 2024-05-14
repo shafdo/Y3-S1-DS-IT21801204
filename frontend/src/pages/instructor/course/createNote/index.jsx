@@ -1,18 +1,28 @@
-import { useState } from 'react';
-import { createCourseAPIWrapper } from '../../../../api/course';
+import { useEffect, useState } from 'react';
+import { createNoteAPIWrapper } from '../../../../api/content';
 import { notify } from '../../../../utils/notifier';
+import { useNavigate } from 'react-router-dom';
 
 const InstructorCreateNote = () => {
   const [noteTitle, setNoteTitle] = useState('');
   const [noteExplanation, setNoteExplanation] = useState('');
+  const [crscode, setCrscode] = useState('');
 
-//   const formHandler = async (payload) => {
-//     const res = await createCourseAPIWrapper(payload);
-//     notify(res.data.status, 'success');
-//     setCourseName('');
-//     setCourseDesc('');
-//     setCoursePrice('');
-//   };
+  const navigate = useNavigate();
+
+  const formHandler = async (payload) => {
+    const res = await createNoteAPIWrapper(payload);
+    notify(res.data.status, 'success');
+    setNoteTitle('');
+    setNoteExplanation('');
+
+    navigate(`/instructor/course/view?crscode=${crscode}`)
+  };
+  useEffect(()=> {
+      const url = new URL(window.location.href);
+      const crscode = url.searchParams.get('crscode');
+      setCrscode(crscode);
+  }, [])
 
   return (
     <>
@@ -52,6 +62,13 @@ const InstructorCreateNote = () => {
         </div>
         <div className="flex items-center justify-between">
           <button
+          onClick={() =>
+            formHandler({
+              crscode: crscode,
+              title: noteTitle,
+              explanation: noteExplanation,
+            })
+          }
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >

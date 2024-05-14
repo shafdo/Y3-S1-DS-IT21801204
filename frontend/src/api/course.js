@@ -20,6 +20,12 @@ export const deleteCourseByIdAPIWrapper = async (courseId) => {
   return await courseApi.delete(`/course/delete/${courseId}`);
 };
 
+export const deleteVideoByIdAPIWrapper = async (courseId, videoId) => {
+  return await courseApi.delete(`/content/video/delete/${courseId}/${videoId}`);
+};
+
+
+
 export const editCourseAPIWrapper = async ({
   courseId,
   crsname,

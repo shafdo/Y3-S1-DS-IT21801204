@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { notify } from '../../../../utils/notifier';
 import { getAllCourseAPIWrapper, deleteCourseByIdAPIWrapper } from '../../../../api/course';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getRandomNumber } from '../../../../utils/misc';
 
 const MyCoursesPage = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate();
 
   const fetchCourse = async () => {
     const res = await getAllCourseAPIWrapper();
@@ -38,6 +39,17 @@ const MyCoursesPage = () => {
           <span className="mt-1 font-medium text-secondary-dark text-lg/normal">
             Check all courses available
           </span>
+          <div 
+          onClick={()=> {
+            navigate('/instructor/course/create')
+          }}
+          className='h-auto w-fit flex items-center mt-3'>
+            <div className='size-10 relative flex items-center justify-center rounded-full border-[1px] border-[solid] border-white' >
+              <div className="w-8 h-[1px] bg-white rounded-lg rotate-90"></div>
+              <div className="w-8 h-[1px] bg-white rounded-lg absolute"></div>
+            </div>
+            <h3 className='ml-4'>Add course</h3>
+          </div>
         </h3>
       </div>
 
