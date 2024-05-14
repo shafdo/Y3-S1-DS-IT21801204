@@ -19,6 +19,7 @@ import {
   ViewNote,
   MyCoursesPage,
   HomePage,
+  PaymentPage,
 } from './';
 import { CookiesProvider } from 'react-cookie';
 
@@ -66,6 +67,8 @@ function App() {
           <Route path="/course/view/note" element={<ViewNote />} />
           <Route path="/instructor/course/edit" element={<CourseEditPage />} />
           <Route path="/instructor/course/my" element={<MyCoursesPage />} />
+
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
 
         <ToastContainer position="top-right" autoClose={5000} />

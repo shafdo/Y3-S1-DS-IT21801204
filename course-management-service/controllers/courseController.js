@@ -1,14 +1,17 @@
 // importing the course model
 const Course = require('../models/Course');
 const { v4: uuidv4 } = require('uuid');
+const jwtDecode = require('../utils/jwt');
 
 /* --------- Create functions --------- */
 
 async function addCourse(req, res) {
-  const role = 'instructor';
+  const decoded = jwtDecode(req.cookies.auth);
+  if (!decoded) return res.status(403).json({ status: 'Please re-login.' });
+  const role = decoded.role;
   if (role === 'instructor') {
     let crscode = generateUniqueCourseCode(); // Generate a random crscode
-    const instructorId = 'in2d3s5ef534';
+    const instructorId = decoded.uid;
     const crsname = req.body.crsname;
     const description = req.body.description;
     const price = Number(req.body.price);
@@ -20,7 +23,6 @@ async function addCourse(req, res) {
         crscode = generateUniqueCourseCode();
         existingCourse = await Course.findOne({ crscode });
       }
-
       // Create and save the new course
       const courseItem = new Course({
         instructorId,
@@ -29,7 +31,6 @@ async function addCourse(req, res) {
         description,
         price,
       });
-
       await courseItem.save();
       return res.json({ status: 'Course successfully added!' });
     } catch (err) {
@@ -66,6 +67,9 @@ async function searchCourse(req, res) {
 
 // An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses excluding the content.
 async function getAllCourses(req, res) {
+  const decoded = jwtDecode(req.cookies.auth);
+  console.log(decoded);
+
   const role = 'admin'; // Sample role (remove later)
   let query;
 
