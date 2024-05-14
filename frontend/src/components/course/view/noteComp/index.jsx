@@ -8,7 +8,7 @@ import trashIcon from '../../../../assets/trash.svg'
 import rightArrowIcon from '../../../../assets/arrowRight.svg'
 import { notify } from '../../../../utils/notifier'
 
-const CourseNoteComp = ({data}) => {
+const CourseNoteComp = ({data, access}) => {
     const navigate = useNavigate();
     const [hideNote, setHideNote] = useState(false)
     
@@ -31,13 +31,17 @@ const CourseNoteComp = ({data}) => {
         <div className='h-[1px] w-[80%] bg-gray-600 rounded-lg'></div>
         <p className='max-h-[172px] text-gray-700 w-[90%] overflow-hidden'>{data.explanation}</p>
         <div className='w-full h-[40px] flex items-center justify-center'>
-            <button
-            onClick={()=> {
-                navigate('/instructor/course/note/update', {state: {data}})
-            }}
-            >
-                <img src={editIcon} alt="" />
-            </button>
+            {
+                access &&
+                <button
+                onClick={()=> {
+                    navigate('/instructor/course/note/update', {state: {data}})
+                }}
+                >
+                    <img src={editIcon} alt="" />
+                </button>
+                
+            }
             <button
             onClick={()=>{
                 navigate('/course/view/note', {state: {title: data.title, explanation: data.explanation}})
@@ -46,11 +50,15 @@ const CourseNoteComp = ({data}) => {
                 <p className='mx-2 text-gray-600'>View More</p>
                 <img src={rightArrowIcon} alt="" />
             </button>
-            <button
-            onClick={deleteNote}
-            >
-                <img src={trashIcon} alt="" />
-            </button>
+            {
+                access &&
+                <button
+                onClick={deleteNote}
+                >
+                    <img src={trashIcon} alt="" />
+                </button>
+
+            }
         </div>
     </div>
   )

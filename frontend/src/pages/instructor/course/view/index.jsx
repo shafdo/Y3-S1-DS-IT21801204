@@ -81,7 +81,7 @@ const InstructorCourseView = () => {
             <div className='h-[180px] w-[180px] bg-transparent absolute 
             flex flex-col items-center justify-center'>
                 <img className='h-[40px]' src={notesIcon} alt="" />
-                <p className='text-2xl mt-2 text-gray-800' >0</p>
+                <p className='text-2xl mt-2 text-gray-800' >{notesArray.length}</p>
                 <p className='text-2xl mt-2 text-gray-400'>Notes</p>
             </div>
         </div>
@@ -112,7 +112,7 @@ const InstructorCourseView = () => {
             {
                 courseData.videos &&
                 courseData.videos.map((data)=> (
-                    <CourseVideoComp data={data} deleteVideo={deleteVideo}/>
+                    <CourseVideoComp data={data} deleteVideo={deleteVideo} access={true}/>
                 ))
             }
             
@@ -135,7 +135,7 @@ const InstructorCourseView = () => {
             {
                 notesArray &&
                 notesArray.map((data)=> (
-                    <CourseNoteComp data={data}/>
+                    <CourseNoteComp data={data} access={true}/>
                 ))
             }
 
