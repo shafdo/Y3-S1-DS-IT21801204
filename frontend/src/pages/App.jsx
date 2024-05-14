@@ -22,6 +22,8 @@ import {
   PaymentPage,
 } from './';
 import { CookiesProvider } from 'react-cookie';
+import LearnerDashboardPage from './learner/dashboard';
+import LearnerMyCoursePage from './learner/course/mycourses';
 
 function App() {
   return (
@@ -47,6 +49,10 @@ function App() {
             path="/instructor/dashboard"
             element={<InstructorDashboardPage />}
           />
+           <Route
+            path="/learner/dashboard"
+            element={<LearnerDashboardPage />}
+          />
           <Route
             path="/instructor/course/create"
             element={<CourseCreatePage />}
@@ -56,6 +62,10 @@ function App() {
             element={<InstructorCourseView />}
           />
           <Route path="/learner/course/view" element={<LearnerCourseView />} />
+          <Route
+            path="/learner/myCourses"
+            element={<LearnerMyCoursePage />}
+          />
           <Route
             path="/instructor/course/note/create"
             element={<InstructorCreateNote />}
