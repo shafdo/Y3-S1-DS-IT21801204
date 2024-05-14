@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 //Routes
@@ -23,6 +24,7 @@ app.use(
   })
 );
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -38,6 +40,7 @@ app.use('/course', courseRouter);
 
 // Importing and accessing the content.js route file
 const contentRouter = require('./routes/content.js');
+
 // using the imported route
 app.use('/content', contentRouter);
 
