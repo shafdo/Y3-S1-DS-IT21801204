@@ -102,7 +102,9 @@ const InstructorCourseView = () => {
         <div className="w-[90%] h-[1px] bg-gray-500 mx-auto"></div>
         <div className="flex items-center w-full h-[250px] overflow-x-auto overflow-y-visible">
 
-            <div className="flex flex-col items-center justify-center border-[2px] border-solid h-[200px] w-[200px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_rgba(0,0,0,0.3)]">
+            <div
+            onClick={()=> {navigate(`/instructor/course/video/create?crscode=${savedCrscode}`)}}
+            className="flex flex-col items-center justify-center border-[2px] border-solid h-[200px] w-[200px] rounded-lg mx-5 shrink-0 [box-shadow:0_0_8px_2px_rgba(0,0,0,0.3)]">
                 <div className='relative h-[110px] w-[110px] rounded-[50%] flex items-center justify-center border-[1px] border-[solid] border-gray-500'>
                     <div className='absolute h-1 w-10 bg-gray-300 rounded-md'></div>
                     <div className='h-1 w-10 bg-gray-300 rounded-md rotate-90'></div>

@@ -8,6 +8,29 @@ export const createNoteAPIWrapper = async ({
     return await courseApi.post('/content/note/add', { crscode,title,explanation, });
   };
 
+  export const uploadVideoAPIWrapper = async ({
+    crscode,
+    title,
+    videoFile,
+  }) => {
+    try {
+      console.log({crscode, title, videoFile});
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('video', videoFile);
+
+        const response = await courseApi.post(`/content/video/add/${crscode}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
   export const getNoteByIdAPIWrapper = async (notecode) => {
     return await courseApi.get(`/content/note/add/${notecode}`);
   };
