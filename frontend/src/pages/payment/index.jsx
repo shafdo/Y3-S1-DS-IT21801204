@@ -21,6 +21,8 @@ const PaymentPage = () => {
 
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
+
+  const [courseLink, setCourseLink] = useState('');
   const paypalRef = useRef();
 
   useEffect(() => {
@@ -66,6 +68,14 @@ const PaymentPage = () => {
     createPaypalButtons();
   }, [product.price]);
 
+  useEffect(() => {
+    if (paidFor) {
+      // 1. API to enrollement
+      // 2. setCourseLink => Redirect Link
+      // 3. Call Email API
+    }
+  }, [paidFor]);
+
   if (paidFor) {
     return (
       <div className="bg-gray-100 overflow-hidden">
@@ -78,12 +88,18 @@ const PaymentPage = () => {
               Thank you for completing your secure online payment.
             </p>
             <p> Have a great day! </p>
-            <div className="py-10 text-center">
+            <div className="py-10 text-center flex justify-center">
               <Link
                 to="/"
-                className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3"
+                className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 mx-3"
               >
                 GO BACK
+              </Link>
+              <Link
+                to={courseLink}
+                className="px-12 bg-green-600 hover:bg-green-500 text-white font-semibold py-3 mx-3"
+              >
+                GO TO COURSE
               </Link>
             </div>
           </div>
