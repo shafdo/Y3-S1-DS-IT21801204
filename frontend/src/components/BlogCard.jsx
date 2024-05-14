@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import { getRandomNumber } from '../utils/misc';
+import { Link } from 'react-router-dom';
 
 const BlogCard = ({ title, desc, createdDate, author, price }) => {
   return (
@@ -45,10 +46,16 @@ const BlogCard = ({ title, desc, createdDate, author, price }) => {
           Created Date: {createdDate}
         </Typography>
         <div className="mt-4 flex justify-end">
-          <Button size="sm" color="green" className="flex items-center">
-            <FontAwesomeIcon icon={faDollar} className="text-xl" />
-            <p className="ml-2 text-xl">{price}</p>
-          </Button>
+          <Link
+            to={`/payment?product=${encodeURIComponent(
+              JSON.stringify({ title, description: desc, price })
+            )}`}
+          >
+            <Button size="sm" color="green" className="flex items-center">
+              <FontAwesomeIcon icon={faDollar} className="text-xl" />
+              <p className="ml-2 text-xl">{price}</p>
+            </Button>
+          </Link>
         </div>
       </CardFooter>
     </Card>

@@ -13,3 +13,4 @@ export { default as ViewNote } from './instructor/course/viewNote';
 export { default as LearnerCourseView } from './learner/course/view';
 export { default as InstructorDashboardPage } from './instructor/dashboard';
 export { default as MyCoursesPage } from './instructor/course/my';
+export { default as PaymentPage } from './payment';
