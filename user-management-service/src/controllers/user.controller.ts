@@ -7,6 +7,7 @@ import { generateJWT } from '@/utils/jwt';
 export const createUser = async (req: Request, res: Response) => {
   // Hash password
   req.body.password = hashText(req.body.password);
+
   const info = await createUserRepo({ ...req.body });
 
   // Remove password
@@ -31,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
   // User not exist check. User password not match check.
   if (
     !userData ||
-    (userData && !compareHash(userData.password, req.body.password))
+    (userData && !compareHash(req.body.password, userData.password))
   ) {
     return response({
       res,
