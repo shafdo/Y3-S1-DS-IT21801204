@@ -5,6 +5,7 @@ import { getAllCourseAPIWrapper, deleteCourseByIdAPIWrapper } from '../../../../
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getRandomNumber } from '../../../../utils/misc';
+import NavbarComp from '../../../../components/NavbarComp'
 
 const MyCoursesPage = () => {
   const [courses, setCourses] = useState([]);
@@ -33,6 +34,8 @@ const MyCoursesPage = () => {
 
   return (
     <div className="container block mx-auto">
+      <div className='w-full h-[120px]'></div>
+    <NavbarComp/>
       <div className="px-9 py-5 flex justify-between items-stretch flex-wrap min-h-[70px] bg-gray-800 my-8 text-white rounded-2xl">
         <h3 className="flex flex-col items-start justify-center m-2 ml-0 font-medium text-xl/tight text-dark">
           <span className="mr-3 font-semibold text-dark">All Courses</span>

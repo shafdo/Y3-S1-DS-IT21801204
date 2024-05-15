@@ -6,10 +6,10 @@ import editIcon from '../../../../assets/editIcon.svg'
 import rightArrowIcon from '../../../../assets/arrowRight.svg'
 import videoIcon from '../../../../assets/videoIcon.svg'
 import notesIcon from '../../../../assets/notes.svg'
-import playIcon from '../../../../assets/play.svg'
-import trashIcon from '../../../../assets/trash.svg'
+
 import CourseVideoComp from '../../../../components/course/view/videoCard'
 import CourseNoteComp from '../../../../components/course/view/noteComp'
+import NavbarComp from '../../../../components/NavbarComp'
 
 const InstructorCourseView = () => {
     const navigate = useNavigate()
@@ -47,7 +47,8 @@ const InstructorCourseView = () => {
     }, [])
     return (
     <div className='min-h-screen w-full text-center'>
-      <div className="top_filler w-full h-[60px]"></div>
+      <div className="top_filler w-full h-[160px]"></div>
+      <NavbarComp/>
       <h1 className='text-[80px]'>Welcome to!</h1>
       <h1 className='text-[100px] min-[500px]:text-sm leading-[110px] text-gray-700'>{courseData.crsname}</h1>
       <h1 className='text-2xl'>${courseData.price}</h1>
