@@ -14,6 +14,7 @@ const LearnerMyCoursePage = () => {
             createdDate="January 10 2024"
             author="Shalinda Fernando"
             price={150}
+            courseId="1"
           />
           <BlogCard
             title="Web Development Guide"
@@ -21,6 +22,7 @@ const LearnerMyCoursePage = () => {
             createdDate="January 14 2024"
             author="Eddy Manson"
             price={200}
+            courseId="1"
           />
         </div>
       </div>

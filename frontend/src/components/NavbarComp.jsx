@@ -13,7 +13,7 @@ export default function NavbarComp() {
   }
 
   const [cookies] = useCookies(['auth']);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('learner');
 
   const logout = () => {
     deleteCookie('auth');

@@ -12,7 +12,7 @@ import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import { getRandomNumber } from '../utils/misc';
 import { Link } from 'react-router-dom';
 
-const BlogCard = ({ title, desc, createdDate, author, price }) => {
+const BlogCard = ({ title, desc, createdDate, author, price, courseId }) => {
   return (
     <Card className="max-w-[22rem] overflow-hidden mb-4">
       <CardHeader
@@ -48,7 +48,7 @@ const BlogCard = ({ title, desc, createdDate, author, price }) => {
         <div className="mt-4 flex justify-end">
           <Link
             to={`/payment?product=${encodeURIComponent(
-              JSON.stringify({ title, description: desc, price })
+              JSON.stringify({ title, description: desc, price, courseId })
             )}`}
           >
             <Button size="sm" color="green" className="flex items-center">

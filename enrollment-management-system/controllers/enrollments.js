@@ -3,7 +3,8 @@ import { createError } from "../utils/error.js";
 
 // ADD NEW ENROLLMENT
 export const addEnrollment = async (req, res, next) => {
-    const { userId, courseId } = req.params;
+    const { courseId } = req.params;
+    const userId = req.user.uid;
 
     try{
         const existingEnrollment = await Enrollment.findOne({ userId });
@@ -32,7 +33,8 @@ export const addEnrollment = async (req, res, next) => {
 
 // GET ENROLLMENT STATUS
 export const getEnrollmentStatus = async (req, res, next) => {
-    const { userId, courseId } = req.params;
+    const { courseId } = req.params;
+    const userId = req.user.uid;
 
     try{
         const enrollment = await Enrollment.findOne({ userId });
@@ -49,7 +51,8 @@ export const getEnrollmentStatus = async (req, res, next) => {
 
 // DELETE AN ENROLLED COURSE FROM A SINGLE ENROLLMENT MODEL
 export const deleteCourseEnrollment = async (req, res, next) => {
-    const { userId, courseId } = req.params;
+    const { courseId } = req.params;
+    const userId = req.user.uid;
 
     try {
         const enrollment = await Enrollment.findOne({ userId });
@@ -68,7 +71,7 @@ export const deleteCourseEnrollment = async (req, res, next) => {
 
 // DELETE AN ENROLLMENT MODEL GIVEN A USER ID
 export const deleteEnrollment = async (req, res, next) => {
-    const { userId } = req.params;
+    const userId = req.user.uid;
 
     try {
         const result = await Enrollment.findOneAndDelete({ userId });
