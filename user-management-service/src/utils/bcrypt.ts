@@ -5,6 +5,6 @@ export const hashText = (plainText: string) => {
   return bcrypt.hashSync(plainText, salt);
 };
 
-export const compareHash = (hash: string, secret: string) => {
-  return bcrypt.compareSync(secret, hash);
+export const compareHash = (plaintext: string, hash: string) => {
+  return bcrypt.compareSync(plaintext, hash);
 };
