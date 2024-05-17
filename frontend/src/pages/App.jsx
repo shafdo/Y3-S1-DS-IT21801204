@@ -62,7 +62,7 @@ function App() {
             path="/instructor/course/view"
             element={<InstructorCourseView />}
           />
-          <Route path="/learner/:courseId/view" element={<LearnerCourseView />} />
+          <Route path="/learner/course/view" element={<LearnerCourseView />} />
           <Route
             path="/learner/myCourses"
             element={<LearnerMyCoursePage />}

@@ -107,3 +107,21 @@ export const deleteCourseInEnrollments = async (req, res, next) => {
         next(err);
     }
 }
+
+//GET ENROLLED COURSE IDS FOR AN USER
+export const getEnrolledCourseIds = async (req, res, next) => {
+    const userId = req.user.uid;
+    console.log(userId)
+    try {
+        const enrollment = await Enrollment.findOne({ userId });
+
+        if(enrollment){
+            
+            return res.status(200).json(enrollment.courseIds);
+        }
+        return res.status(200).json([]);
+        
+    } catch (err) {
+        next(err);
+    }
+};

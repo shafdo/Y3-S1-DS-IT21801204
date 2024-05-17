@@ -1,11 +1,14 @@
 import express from 'express';
-import { addEnrollment, deleteCourseEnrollment, deleteCourseInEnrollments, deleteEnrollment, getEnrollmentStatus } from '../controllers/enrollments.js';
+import { addEnrollment, deleteCourseEnrollment, deleteCourseInEnrollments, deleteEnrollment, getEnrolledCourseIds, getEnrollmentStatus } from '../controllers/enrollments.js';
 import { verifyUser } from '../utils/verifyToken.js';
 
 const router = express.Router();
 
 //CREATE ENROLLMENT
 router.post("/:courseId", verifyUser, addEnrollment);
+
+//GET ENROLLED COURSE IDS
+router.get("/", verifyUser, getEnrolledCourseIds);
 
 //CHECK ENROLLMENT STATUS
 router.get("/:courseId", verifyUser, getEnrollmentStatus);

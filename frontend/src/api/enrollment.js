@@ -47,3 +47,15 @@ export const deleteCourseInEnrollmentsAPIWrapper = async (courseId) => {
       throw error; 
     }
 };
+
+// Function to fetch all course IDs a user has enrolled in
+export const fetchEnrolledCourseIdsAPIWrapper = async () => {
+    try {
+        const response = await enrollmentApi.get(`/`); 
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching enrolled course IDs:", error);
+        throw error;
+    }
+};
+
