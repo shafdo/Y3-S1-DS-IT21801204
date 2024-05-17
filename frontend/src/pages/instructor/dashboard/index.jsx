@@ -16,8 +16,8 @@ const InstructorDashboardPage = () => {
           />
           <CardWithLink
             title="My Courses"
-            desc="It's time to create your new course."
-            location="/instructor/course/create"
+            desc="Courses you created."
+            location="/instructor/course/my"
             icon={faStar}
             buttonText="My Courses"
           />

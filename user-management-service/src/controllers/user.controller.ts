@@ -7,6 +7,7 @@ import { generateJWT } from '@/utils/jwt';
 export const createUser = async (req: Request, res: Response) => {
   // Hash password
   req.body.password = hashText(req.body.password);
+
   const info = await createUserRepo({ ...req.body });
 
   // Remove password
@@ -28,10 +29,10 @@ export const login = async (req: Request, res: Response) => {
     role: req.body.role,
   });
 
-  // Employee not exist check. Employee password not match check.
+  // User not exist check. User password not match check.
   if (
     !userData ||
-    (userData && !compareHash(userData.password, req.body.password))
+    (userData && !compareHash(req.body.password, userData.password))
   ) {
     return response({
       res,
@@ -46,6 +47,7 @@ export const login = async (req: Request, res: Response) => {
 
   // Generate auth token
   const authToken = await generateJWT({
+    uid: userData._id,
     username: userData.username,
     email: userData.email,
     role: userData.role,
@@ -55,6 +57,8 @@ export const login = async (req: Request, res: Response) => {
   res.cookie('auth', authToken, {
     secure: process.env.NODE_ENV === 'production',
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    httpOnly: false,
+    sameSite: 'lax',
   });
   return response({
     res,

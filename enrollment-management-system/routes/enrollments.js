@@ -1,21 +1,25 @@
 import express from 'express';
-import { addEnrollment, deleteCourseEnrollment, deleteCourseInEnrollments, deleteEnrollment, getEnrollmentStatus } from '../controllers/enrollments.js';
+import { addEnrollment, deleteCourseEnrollment, deleteCourseInEnrollments, deleteEnrollment, getEnrolledCourseIds, getEnrollmentStatus } from '../controllers/enrollments.js';
+import { verifyUser } from '../utils/verifyToken.js';
 
 const router = express.Router();
 
 //CREATE ENROLLMENT
-router.post("/:courseId/:userId/add", addEnrollment);
+router.post("/:courseId", verifyUser, addEnrollment);
+
+//GET ENROLLED COURSE IDS
+router.get("/", verifyUser, getEnrolledCourseIds);
 
 //CHECK ENROLLMENT STATUS
-router.get("/:courseId/:userId", getEnrollmentStatus);
+router.get("/:courseId", verifyUser, getEnrollmentStatus);
 
 //DELETE ENROLLMENT TO A SINGLE COURSE OF SINGLE USER ENROLLMENTS
-router.delete("/:courseId/:userId", deleteCourseEnrollment);
+router.delete("/:courseId/remove", verifyUser, deleteCourseEnrollment);
 
 //DELETE ALL ENROLLMENT TO A SINGLE USER
-router.delete("/:userId", deleteEnrollment);
+router.delete("/", verifyUser, deleteEnrollment);
 
 //DELETE ALL ENROLLMENTS TO A COURSE
-router.delete("/remove/course/:courseId", deleteCourseInEnrollments);
+router.delete("/:courseId", verifyUser, deleteCourseInEnrollments);
 
 export default router;
