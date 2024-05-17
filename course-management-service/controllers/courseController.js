@@ -6,12 +6,13 @@ const jwtDecode = require('../utils/jwt');
 /* --------- Create functions --------- */
 
 async function addCourse(req, res) {
-  const decoded = jwtDecode(req.cookies.auth);
-  if (!decoded) return res.status(403).json({ status: 'Please re-login.' });
-  const role = decoded.role;
+  // const decoded = jwtDecode(req.cookies.auth);
+  // if (!decoded) return res.status(403).json({ status: 'Please re-login.' });
+  const role = 'instructor';
   if (role === 'instructor') {
     let crscode = generateUniqueCourseCode(); // Generate a random crscode
-    const instructorId = decoded.uid;
+    // const instructorId = decoded.uid;
+    const instructorId = 'in2d3s5ef534';
     const crsname = req.body.crsname;
     const description = req.body.description;
     const price = Number(req.body.price);
@@ -67,8 +68,8 @@ async function searchCourse(req, res) {
 
 // An admin can get all the courses, but for students and instructors they can only fetch courses with the status approved. This simply gets a list of all available courses excluding the content.
 async function getAllCourses(req, res) {
-  const decoded = jwtDecode(req.cookies.auth);
-  console.log(decoded);
+  // const decoded = jwtDecode(req.cookies.auth);
+  // console.log(decoded);
 
   const role = 'admin'; // Sample role (remove later)
   let query;
@@ -137,11 +138,12 @@ async function getCourseById(req, res) {
 
 async function getCoursesByArray(req, res) {
   const coursesArray = req.body.crsarry;
+  console.log(coursesArray);
   try {
     // Fetch courses based on the array of crsCodes
     const courses = await Course.find({
       crscode: { $in: coursesArray },
-      status: 'approved',
+      // status: 'approved',
     })
       .select('crscode crsname instructorId description price date')
       .exec();
@@ -215,7 +217,7 @@ async function approveRejectRecheckCourse(req, res) {
   const role = 'admin';
   const { crscode } = req.params;
   const { status, remarks } = req.body;
-  let currentUserId = 'in2d3s5ef534'; // mocks the id value stored in session
+  let currentUserId = 'in2d3s5ef534'; // mocks the id value stored  seinssion
   if (role === 'admin') {
     if (
       (status === 'approved' ||

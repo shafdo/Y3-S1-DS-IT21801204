@@ -7,7 +7,7 @@ router.get('/', getAllCourses);
 router.get('/search/:query', searchCourse);
 router.get('/course/:crscode', getCourseById);
 router.get('/personal', getMyCourses); // returns all the courses created by the instructor
-router.get('/byarray', getCoursesByArray); // returns all crscodes when an array is passed
+router.post('/byarray', getCoursesByArray); // returns all crscodes when an array is passed
 router.post('/add', addCourse);
 router.put('/update/:crscode', updateCourse);
 router.patch('/patch/:crscode', approveRejectRecheckCourse);

@@ -14,6 +14,7 @@ import {
   InstructorDashboardPage,
   InstructorCourseView,
   InstructorCreateNote,
+  InstructorCreateVideo,
   InstructorUpdateNote,
   LearnerCourseView,
   ViewNote,
@@ -69,6 +70,10 @@ function App() {
           <Route
             path="/instructor/course/note/create"
             element={<InstructorCreateNote />}
+          />
+          <Route
+            path="/instructor/course/video/create"
+            element={<InstructorCreateVideo />}
           />
           <Route
             path="/instructor/course/note/update"

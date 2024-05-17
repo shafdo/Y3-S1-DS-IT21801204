@@ -10,9 +10,42 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import { getRandomNumber } from '../utils/misc';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { jwtDecode } from 'jwt-decode';
 
-const BlogCard = ({ title, desc, createdDate, author, price }) => {
+const BlogCard = ({ title, desc, createdDate, author, price, courseId }) => {
+  const location = useLocation();
+  const [cookies] = useCookies(['auth']);
+  const [user, setUser] = useState(false);
+
+  useEffect(() => {
+    
+      if (cookies.auth) {
+        setUser(true);
+        console.log('User:', user);      
+    }else {
+      // If no authentication token exists, clear the user state
+      setUser(false);
+    }
+  }, [cookies.auth]);
+
+ 
+ console.log('Cookies:', cookies.auth )
+  
+
+  const isMyCoursesPage = location.pathname === '/learner/myCourses';
+  let buttonLink;
+  if (user) {
+    buttonLink = isMyCoursesPage ? `/learner/course/view?crscode=${courseId}` : `/payment?product=${encodeURIComponent(
+      JSON.stringify({ title, description: desc, price, courseId })
+    )}`;
+  } else {
+    buttonLink = '/login';
+  }
+  const buttonText = isMyCoursesPage ? "Access" : `${price}`;
+
   return (
     <Card className="max-w-[22rem] overflow-hidden mb-4">
       <CardHeader
@@ -47,13 +80,11 @@ const BlogCard = ({ title, desc, createdDate, author, price }) => {
         </Typography>
         <div className="mt-4 flex justify-end">
           <Link
-            to={`/payment?product=${encodeURIComponent(
-              JSON.stringify({ title, description: desc, price })
-            )}`}
+           to={buttonLink}  
           >
             <Button size="sm" color="green" className="flex items-center">
-              <FontAwesomeIcon icon={faDollar} className="text-xl" />
-              <p className="ml-2 text-xl">{price}</p>
+            {!isMyCoursesPage && <FontAwesomeIcon icon={faDollar} className="text-xl" />}
+              <p className="ml-2 text-xl">{buttonText}</p>
             </Button>
           </Link>
         </div>
@@ -71,3 +102,9 @@ BlogCard.propTypes = {
 };
 
 export default BlogCard;
+
+{/* <Link
+to={`/payment?product=${encodeURIComponent(
+  JSON.stringify({ title, description: desc, price, courseId })
+)}`}
+> */}
