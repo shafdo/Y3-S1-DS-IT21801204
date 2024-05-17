@@ -1,0 +1,61 @@
+version: '3.3'
+
+services:
+  user_management_api:
+    build: ./user-management-service
+    restart: always
+    env_file: ./user-management-service/.env
+    stdin_open: true
+    tty: true
+    ports:
+      - '8081:8081'
+    networks:
+      - ds_assignment_net
+
+  email_management_api:
+    build: ./email-sms-service
+    restart: always
+    env_file: ./email-sms-service/.env
+    stdin_open: true
+    tty: true
+    ports:
+      - '8080:8080'
+    networks:
+      - ds_assignment_net
+
+  course_management_api:
+    build: ./course-management-service
+    restart: always
+    env_file: ./course-management-service/.env
+    stdin_open: true
+    tty: true
+    ports:
+      - '8070:8070'
+    networks:
+      - ds_assignment_net
+
+  enrollment_management_api:
+    build: ./enrollment-management-system
+    restart: always
+    env_file: ./enrollment-management-system/.env
+    stdin_open: true
+    tty: true
+    ports:
+      - '8888:8888'
+    networks:
+      - ds_assignment_net
+
+  frontend:
+    build: ./frontend
+    restart: always
+    env_file: ./frontend/.env
+    stdin_open: true
+    tty: true
+    ports:
+      - '4000:4000'
+    networks:
+      - ds_assignment_net
+
+networks:
+  ds_assignment_net:
+    driver: bridge
