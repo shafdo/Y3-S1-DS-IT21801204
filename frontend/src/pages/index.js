@@ -8,6 +8,7 @@ export { default as CourseCreatePage } from './instructor/course/create';
 export { default as CourseEditPage } from './instructor/course/edit';
 export { default as InstructorCourseView } from './instructor/course/view';
 export { default as InstructorCreateNote } from './instructor/course/createNote';
+export { default as InstructorCreateVideo } from './instructor/course/createVideo';
 export { default as InstructorUpdateNote } from './instructor/course/updateNote';
 export { default as ViewNote } from './instructor/course/viewNote';
 export { default as LearnerCourseView } from './learner/course/view';

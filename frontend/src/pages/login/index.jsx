@@ -34,7 +34,7 @@ const LoginPage = () => {
             return navigate('/instructor/dashboard');
 
           case 'student':
-            navigate('/student/dashboard');
+            navigate('/learner/dashboard');
             break;
         }
       }, 3000);

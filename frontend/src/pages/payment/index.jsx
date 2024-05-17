@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getRandomNumber } from '../../utils/misc';
+import { addEnrollmentAPIWrapper } from '../../api/enrollment';
 
 // ============ Demo Info ============
 // 4032 0345 3810 7098
@@ -18,11 +19,16 @@ const PaymentPage = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const product = JSON.parse(decodeURIComponent(params.get('product')));
+  const courseId = product.courseId; // Get courseId from the query parameters
+  
+  // if (courseId) {
+  //   console.log(courseId); // Add a null check here
+  // }
 
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
 
-  const [courseLink, setCourseLink] = useState('');
+  // const [courseLink, setCourseLink] = useState('');
   const paypalRef = useRef();
 
   useEffect(() => {
@@ -69,11 +75,21 @@ const PaymentPage = () => {
   }, [product.price]);
 
   useEffect(() => {
-    if (paidFor) {
-      // 1. API to enrollement
-      // 2. setCourseLink => Redirect Link
-      // 3. Call Email API
-    }
+    const enrollUserToCourse = async () => {
+      if (paidFor) {
+        try {
+          // Call the add enrollment API function here
+          const response = await addEnrollmentAPIWrapper(courseId);
+         
+        } catch (error) {
+          setError(error);
+          // console.error(error);
+        }
+      }
+    };
+
+    enrollUserToCourse();
+      // 3. Call Email API------
   }, [paidFor]);
 
   if (paidFor) {
@@ -90,17 +106,17 @@ const PaymentPage = () => {
             <p> Have a great day! </p>
             <div className="py-10 text-center flex justify-center">
               <Link
-                to="/"
+                 to={`/learner/course/view?crscode=${courseId}`}
                 className="px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 mx-3"
               >
-                GO BACK
+                GO TO COURSE
               </Link>
-              <Link
+              {/* <Link
                 to={courseLink}
                 className="px-12 bg-green-600 hover:bg-green-500 text-white font-semibold py-3 mx-3"
               >
                 GO TO COURSE
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

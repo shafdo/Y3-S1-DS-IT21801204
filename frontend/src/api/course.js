@@ -42,3 +42,13 @@ export const editCourseAPIWrapper = async ({
 export const reviewCourseAPIWrapper = async (courseId, payload) => {
   return await courseApi.patch(`/course/patch/${courseId}`, payload);
 };
+
+export const getCoursesByArrayAPIWrapper = async (crsarry) => {
+  try {
+    const response = await courseApi.post('/course/byarray', { crsarry });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching courses by array:", error);
+    throw error;
+  }
+};

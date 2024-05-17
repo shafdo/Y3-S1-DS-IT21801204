@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 import { createError } from "./error.js";
 
-verifytoken.js
-
 export const verifyToken = (req, res, next) => {
     const token = req.cookies.auth;
 
@@ -17,16 +15,17 @@ export const verifyToken = (req, res, next) => {
         req.user = user;
         next();
     
-    });2
+    });
 
 };
 
 export const verifyUser = (req, res, next) => {
-    verifyToken(req, res, next, () => {
-        if(req.user.id === req.params.id){
-            next();
-        } else{
-             return next( createError(403, "You are not authorized!!!"));
+    verifyToken(req, res, err => {
+        if (err) {
+            // If there's an error, it means token is not valid or missing
+            return next(createError(403, "You are not authorized!"));
         }
-    })
-}
+        console.log(req.user);
+        next(); // Token is valid, continue
+    });
+};
